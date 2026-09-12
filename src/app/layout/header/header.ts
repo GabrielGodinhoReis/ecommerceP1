@@ -10,12 +10,13 @@ import { HeaderActions } from '../header-actions/header-actions';
     <mat-toolbar class="w-full elevated py-2"> 
       
       <div class="max-w-[1200px] mx-auto w-full flex items-center justify-between">
-        
-        <span>Loja do Godin</span>
-        
-        <app-header-actions />
+        <span class="gaming-title">
+          Gaming
+        <span class="hub-badge">Hub</span>
+      </span>
 
-      </div> 
+      <app-header-actions />
+    </div>
 
     </mat-toolbar>
   `,

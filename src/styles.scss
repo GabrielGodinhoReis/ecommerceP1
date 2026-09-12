@@ -1,52 +1,31 @@
-// Include theming for Angular Material with `mat.theme()`.
-// This Sass mixin will define CSS variables that are used for styling Angular Material
-// components according to the Material 3 design spec.
-// Learn more about theming and how to use it for your application's
-// custom components at https://material.angular.dev/guide/theming
 @use '@angular/material' as mat;
 @use 'tailwindcss';
 
-html {
-  @include mat.theme(
-    (
-      color: (
-        primary: mat.$violet-palette,
-        tertiary: mat.$blue-palette,
-        theme-type: light,
-      ),
-      typography: (
-        plain-family: 'Roboto',
-        brand-family: 'Roboto',
-        bold-weight: 700,
-        medium-weight: 500,
-        regular-weight: 400,
-      ),
-      density: 0,
-    )
-  );
+html,
+body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+app-root {
+  display: block;
+  height: 100vh;
+  overflow: visible;
 }
 
 body {
-  // Tema claro
-  color-scheme: light;
-
-  // Fundo e texto padrão do Angular Material
-  background-color: var(--mat-sys-surface);
-  color: var(--mat-sys-on-surface);
+  color-scheme: dark;
+  background-color: #0f1117;
+  color: #ffffff;
   font: var(--mat-sys-body-medium);
-
-  // Remove margem padrão
   margin: 0;
 
-  @include mat.dialog-overrides(
-    (
-      container-shape: 6px,
-    )
-  );
+  @include mat.dialog-overrides((container-shape: 6px,
+    ));
 
   --mat-sys-body-large-size: 0.875rem;
 
-  // Fonte padrão da aplicação
   font-family:
     'Roboto',
     -apple-system,
@@ -55,77 +34,84 @@ body {
     sans-serif;
 }
 
-html,
-body {
-  height: 100%;
+.gaming-title {
+  color: #ffffff;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.hub-badge {
+  display: inline-block;
+  margin-left: 5px;
+  padding: 3px 11px;
+  border-radius: 5px;
+  background-color: #8b5cf6;
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 700;
 }
 
 .elevated {
-  box-shadow: var(--mat-sys-level2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45);
+  position: relative;
+  z-index: 10;
+}
+
+mat-toolbar {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45);
+  position: relative;
+  z-index: 10;
 }
 
 button[matButton] {
-  @include mat.button-overrides(
-    (
-      filled-container-shape: 6px,
+  @include mat.button-overrides((filled-container-shape: 6px,
       outlined-container-shape: 6px,
       text-container-shape: 6px,
       protected-container-shape: 6px,
       tonal-container-shape: 6px,
-
+      filled-container-color: #8b5cf6,
+      filled-label-text-color: #ffffff,
+      outlined-label-text-color: #a78bfa,
+      outlined-outline-color: #8b5cf6,
+      text-label-text-color: #a78bfa,
       filled-horizontal-padding: 12px,
       outlined-horizontal-padding: 12px,
       text-horizontal-padding: 12px,
       protected-horizontal-padding: 12px,
       tonal-horizontal-padding: 12px,
-
       filled-icon-spacing: 0px,
       filled-icon-offset: 1px,
-
       filled-container-height: 36px,
       outlined-container-height: 36px,
       text-container-height: 36px,
       protected-container-height: 36px,
       tonal-container-height: 36px,
-    )
-  );
+    ));
 }
 
 button[matButton='outlined'].danger {
-  @include mat.button-overrides(
-    (
-      outlined-label-text-color: var(--mat-sys-error),
+  @include mat.button-overrides((outlined-label-text-color: var(--mat-sys-error),
       outlined-outline-color: var(--mat-sys-error),
       outlined-state-layer-color: var(--mat-sys-error),
-    )
-  );
+    ));
 }
 
 button[matIconButton] {
-  @include mat.icon-button-overrides(
-    (
-      container-shape: 6px,
-    )
-  );
+  @include mat.icon-button-overrides((container-shape: 6px,
+    ));
 }
 
 button[matIconButton].danger {
-  @include mat.icon-button-overrides(
-    (
-      icon-color: var(--mat-sys-error),
+  @include mat.icon-button-overrides((icon-color: var(--mat-sys-error),
       state-layer-color: var(--mat-sys-error),
-    )
-  );
+    ));
 }
 
 button[matIconButton].small {
-  @include mat.icon-button-overrides(
-    (
-      icon-size: 24px,
+  @include mat.icon-button-overrides((icon-size: 24px,
       touch-target-size: 28px,
       state-layer-size: 28px,
-    )
-  );
+    ));
 }
 
 mat-icon.small {
@@ -139,43 +125,213 @@ mat-icon.small {
 }
 
 mat-form-field {
-  @include mat.theme(
-    (
-      density: -4,
-    )
-  );
+  @include mat.theme((density: -4,
+    ));
 
   width: 100%;
 }
 
 mat-sidenav {
-  @include mat.sidenav-overrides(
-    (
-      container-width: 250px,
+  @include mat.sidenav-overrides((container-width: 250px,
       container-shape: 0px,
-      container-background-color: white,
-      container-divider-color: var(--mat-sys-outline-variant),
-    )
-  );
+      container-background-color: #161922,
+      container-divider-color: #2a2d38,
+    ));
 
-  @include mat.list-overrides(
-    (
-      active-indicator-color: var(--mat-sys-primary),
+  @include mat.list-overrides((active-indicator-color: #8b5cf6,
       active-indicator-shape: 6px,
       list-item-one-line-container-height: 40px,
-      list-item-label-text-color: var(--mat-sys-on-surface),
-    )
-  );
+      list-item-label-text-color: #ffffff,
+    ));
 }
 
-// Corrige a borda do Angular Material + TailwindCSS
 .mdc-notched-outline__notch {
   border-right: none !important;
 }
 
-// Grid responsivo para produtos
 .responsive-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
   gap: 1rem;
+}
+
+.menu-title {
+  color: #ffffff;
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0;
+  padding: 24px 20px 18px;
+  text-align: center;
+}
+
+.recommendations {
+  width: 100%;
+  margin-bottom: 32px;
+}
+
+.recommendations-title {
+  width: 920px;
+  margin: 0 auto 18px;
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-align: center;
+}
+
+.carousel-wrapper {
+  position: relative;
+  width: 100%;
+  height: 470px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 32px;
+  overflow: visible;
+}
+
+.carousel {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1000px;
+  height: 470px;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #161922;
+  box-shadow:
+    0 0 35px 15px rgba(0, 0, 0, 0.75);
+  z-index: 2;
+}
+
+.carousel-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: opacity 0.2s ease;
+  opacity: 0.55;
+}
+
+.carousel:hover .carousel-image {
+  opacity: 1;
+}
+
+.carousel-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  padding: 40px;
+  background: linear-gradient(to top,
+      rgba(15, 17, 23, 0.85),
+      rgba(15, 17, 23, 0.45),
+      transparent);
+}
+
+.carousel-info {
+  width: 100%;
+  max-width: 650px;
+}
+
+.carousel-info h2 {
+  margin: 0 0 8px;
+  color: #ffffff;
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.carousel-info p {
+  margin: 0 0 18px;
+  color: #d1d5db;
+  font-size: 16px;
+}
+
+.carousel-bottom {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.carousel-price {
+  color: #ffffff;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.carousel-buy-button {
+  border: none;
+  border-radius: 6px;
+  padding: 10px 20px;
+  background: #8b5cf6;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.carousel-buy-button:hover {
+  background: #7c3aed;
+}
+
+.side-card {
+  position: absolute;
+  width: 920px;
+  height: 430px;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #161922;
+  opacity: 0.45;
+  filter: brightness(0.6);
+  z-index: 1;
+  pointer-events: auto;
+}
+
+.side-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.left-card {
+  right: calc(50% + 480px);
+}
+
+.right-card {
+  left: calc(50% + 480px);
+}
+
+.carousel-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(15, 17, 23, 0.8);
+  color: #ffffff;
+  font-size: 22px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.carousel-button:hover {
+  background: #8b5cf6;
+}
+
+.carousel-button.prev {
+  left: 18px;
+}
+
+.carousel-button.next {
+  right: 18px;
+}
+
+mat-sidenav-content {
+  overflow-x: hidden !important;
 }
