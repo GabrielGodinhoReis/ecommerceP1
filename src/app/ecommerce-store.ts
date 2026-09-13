@@ -151,6 +151,7 @@ export const EcommerceStore = signalStore(
                 description: 'Chave digital de Death Stranding para Steam.',
                 price: 49.90,
                 imageUrl: 'https://cdn2.steamgriddb.com/thumb/34042c360d640bc6a90e04a4a329c906.jpg',
+                bannerUrl: 'https://shared.steamstatic.com/store_item_assets/steam/apps/1850570/header_2x.jpg?t=1750697255',
                 rating: 4.8,
                 reviewCount: 350,
                 inStock: true,
@@ -163,6 +164,7 @@ export const EcommerceStore = signalStore(
                 description: 'Chave digital de Death Stranding 2: On the Beach para Steam.',
                 price: 349.90,
                 imageUrl: 'https://cdn2.steamgriddb.com/thumb/a8f1d3b1cb35d3163c9cc2d0adff2d8f.jpg',
+                bannerUrl: 'https://cdn1.epicgames.com/spt-assets/3e0c82e7863e40818a56f934edc55712/project-murray-1ad3k.png',
                 rating: 4.9,
                 reviewCount: 210,
                 inStock: true,
@@ -355,8 +357,8 @@ export const EcommerceStore = signalStore(
 
             {
                 id: '29',
-                name: 'Disco Elysium - The Final Cut',
-                description: 'Chave digital de Disco Elysium - The Final Cut para Steam.',
+                name: 'Disco Elysium',
+                description: 'Chave digital de Disco Elysium para Steam.',
                 price: 19.90,
                 imageUrl: 'https://cdn2.steamgriddb.com/thumb/e17233dc1c4e3457d5a259c06c7eb502.jpg',
                 rating: 4.9,
@@ -521,7 +523,106 @@ export const EcommerceStore = signalStore(
                 reviewCount: 880,
                 inStock: true,
                 category: 'Mundo Aberto'
-            }
+            },
+
+            {
+                id: '43',
+                name: 'The Last Of Us Part I',
+                description: 'Chave digital de The Last Of Us Part I para Steam.',
+                price: 149.90,
+                imageUrl: 'https://shared.steamstatic.com/store_item_assets/steam/apps/1888930/library_600x900_2x.jpg?t=1750958840',
+                rating: 4.9,
+                reviewCount: 1220,
+                inStock: true,
+                category: 'Ação e Aventura'
+            },
+
+            {
+                id: '44',
+                name: 'The Last Of Us Part II',
+                description: 'Chave digital de The Last Of Us Part II para Steam.',
+                price: 199.90,
+                imageUrl: 'https://shared.steamstatic.com/store_item_assets/steam/apps/2531310/aeac394b61ac94b5d4ea939351baf3943ac0b282/library_600x900_2x.jpg?t=1750959100',
+                bannerUrl: 'https://shared.steamstatic.com/store_item_assets/steam/apps/2531310/header_2x.jpg?t=1750959100',
+                rating: 5.0,
+                reviewCount: 620,
+                inStock: true,
+                category: 'Ação e Aventura'
+            },
+
+            {
+                id: '45',
+                name: 'Alan Wake I Remastered',
+                description: 'Chave digital de Alan Wake Remastered para Steam.',
+                price: 19.90,
+                imageUrl: 'https://cdn2.steamgriddb.com/thumb/f25f7b9e7ee973a3720e1261cf3a30c8.jpg',
+                rating: 4.6,
+                reviewCount: 340,
+                inStock: true,
+                category: 'Terror'
+            },
+
+            {
+                id: '46',
+                name: 'Alan Wake II',
+                description: 'Chave digital de Alan Wake II para Steam.',
+                price: 109.90,
+                imageUrl: 'https://cdn2.steamgriddb.com/thumb/a7147fd59ab64d16e49e819733ad2187.jpg',
+                bannerUrl: 'https://cdn1.epicgames.com/offer/c4763f236d08423eb47b4c3008779c84/EGS_AlanWake2_RemedyEntertainment_S1_2560x1440-ec44404c0b41bc457cb94cd72cf85872',
+                rating: 5.0,
+                reviewCount: 470,
+                inStock: true,
+                category: 'Terror'
+            },
+
+            {
+                id: '47',
+                name: 'Stella Blade',
+                description: 'Chave digital de Stella Blade para Steam.',
+                price: 219.90,
+                imageUrl: 'https://shared.steamstatic.com/store_item_assets/steam/apps/3489700/6f2bbe8f34fc283f42acbe4ab184e9a40f76ad51/library_600x900_2x.jpg?t=1751863517',
+                rating: 4.6,
+                reviewCount: 520,
+                inStock: true,
+                category: 'Hack and Slash'
+            },
+
+            {
+                id: '48',
+                name: 'Control',
+                description: 'Chave digital de Control para Steam.',
+                price: 19.90,
+                imageUrl: 'https://cdn2.steamgriddb.com/thumb/2e145040d573c3ef988ca1f2c701420f.jpg',
+                rating: 4.5,
+                reviewCount: 120,
+                inStock: true,
+                category: 'Ação e Aventura'
+            },
+
+            {
+                id: '49',
+                name: 'Kingdom Come: Deliverance',
+                description: 'Chave digital de Kingdom Come: Deliverance para Steam.',
+                price: 29.90,
+                imageUrl: 'https://shared.steamstatic.com/store_item_assets/steam/apps/379430/library_600x900_2x.jpg?t=1724938070',
+                rating: 4.8,
+                reviewCount: 520,
+                inStock: true,
+                category: 'RPG'
+            },
+
+            {
+                id: '50',
+                name: 'Kingdom Come: Deliverance II',
+                description: 'Chave digital de Kingdom Come: Deliverance II para Steam.',
+                price: 129.90,
+                imageUrl: 'https://shared.steamstatic.com/store_item_assets/steam/apps/1771300/library_600x900_2x.jpg?t=1761038743',
+                bannerUrl: 'https://cdn1.epicgames.com/spt-assets/a7641d724f1242db95f8f72fc0fd8d81/kingdom-come-deliverance-2-3b725.jpg',
+                rating: 4.9,
+                reviewCount: 720,
+                inStock: true,
+                category: 'RPG'
+            },
         ] as Product[],
 
         category: 'Games'
