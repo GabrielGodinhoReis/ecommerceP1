@@ -30,7 +30,7 @@ export const EcommerceStore = signalStore(
         description: 'Chave digital de Stranger Than Haven para Steam.',
         price: 279.90,
         imageUrl: 'https://cdn2.steamgriddb.com/thumb/f34311be591e96ad5ff51892281121ee.jpg',
-        bannerUrl: 'https://shared.steamstatic.com/store_item_assets/steam/apps/4260840/3e40b76faf9a3eafb4397dd51308eb2e48ac3666/header_2x.jpg?t=1784822692',
+        bannerUrl: 'https://shared.steamstatic.com/store_item_assets/steam/apps/4260840/3e40b76faf9a3eafb4397dd51308eb2e48ac3660/header_2x.jpg?t=1784822692',
         rating: 4.8,
         reviewCount: 120,
         inStock: true,

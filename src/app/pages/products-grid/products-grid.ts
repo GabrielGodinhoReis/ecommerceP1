@@ -14,19 +14,35 @@ import {
   MatListItemTitle
 } from '@angular/material/list';
 
+import {
+  MatButton,
+  MatIconButton
+} from '@angular/material/button';
+
+import { MatIcon } from '@angular/material/icon';
+
 import { RouterLink, ActivatedRoute } from '@angular/router';
 
 import { EcommerceStore } from '../../ecommerce-store';
 
+import { ToggleWishlistButton } from '../../components/toggle-wishlist-button/toggle-wishlist-button';
+
 @Component({
   imports: [
     ProductCard,
+    ToggleWishlistButton,
     MatSidenav,
     MatSidenavContainer,
     MatSidenavContent,
+
     MatNavList,
     MatListItem,
     MatListItemTitle,
+
+    MatButton,
+    MatIconButton,
+    MatIcon,
+
     RouterLink,
   ],
 
@@ -113,13 +129,8 @@ import { EcommerceStore } from '../../ecommerce-store';
                 <div class="side-card left-card">
 
                   <img
-                    [src]="
-                      store.carouselProducts()[previousGameIndex].bannerUrl
-                    "
-
-                    [alt]="
-                      store.carouselProducts()[previousGameIndex].name
-                    "
+                    [src]="store.carouselProducts()[previousGameIndex].bannerUrl"
+                    [alt]="store.carouselProducts()[previousGameIndex].name"
                   />
 
                 </div>
@@ -133,22 +144,15 @@ import { EcommerceStore } from '../../ecommerce-store';
 
                   <img
                     class="carousel-image"
-
                     [class.image-visible]="currentImageVisible()"
-
                     [src]="currentImage()"
-
                     [alt]="currentGameData?.name"
                   />
 
-
                   <img
                     class="carousel-image"
-
                     [class.image-visible]="nextImageVisible()"
-
                     [src]="nextImage()"
-
                     [alt]="nextGameData?.name"
                   />
 
@@ -163,7 +167,6 @@ import { EcommerceStore } from '../../ecommerce-store';
                       {{ currentGameData?.name }}
                     </h2>
 
-
                     <p>
                       {{ currentGameData?.description }}
                     </p>
@@ -172,17 +175,9 @@ import { EcommerceStore } from '../../ecommerce-store';
                     <div class="carousel-bottom">
 
                       <span class="carousel-price">
-
                         R$
-
-                        {{
-                          currentGameData?.price
-                            ?.toFixed(2)
-                            ?.replace('.', ',')
-                        }}
-
+                        {{ currentGameData?.price?.toFixed(2)?.replace('.', ',') }}
                       </span>
-
 
                       <button class="carousel-buy-button">
                         Comprar
@@ -202,7 +197,6 @@ import { EcommerceStore } from '../../ecommerce-store';
                   ❮
                 </button>
 
-
                 <button
                   class="carousel-button next"
                   (click)="nextGame()"
@@ -218,13 +212,8 @@ import { EcommerceStore } from '../../ecommerce-store';
                 <div class="side-card right-card">
 
                   <img
-                    [src]="
-                      store.carouselProducts()[nextGameIndex].bannerUrl
-                    "
-
-                    [alt]="
-                      store.carouselProducts()[nextGameIndex].name
-                    "
+                    [src]="store.carouselProducts()[nextGameIndex].bannerUrl"
+                    [alt]="store.carouselProducts()[nextGameIndex].name"
                   />
 
                 </div>
@@ -239,9 +228,7 @@ import { EcommerceStore } from '../../ecommerce-store';
 
 
         <p class="text-base text-gray-600 mb-6">
-
           {{ store.filteredProducts().length }} Jogos
-
         </p>
 
 
@@ -252,9 +239,9 @@ import { EcommerceStore } from '../../ecommerce-store';
             track product.id
           ) {
 
-            <app-product-card
-              [product]="product"
-            />
+            <app-product-card [product]="product">
+              <app-toggle-wishlist-button !absolute z-10 top-3 right-3 w-10 h-10 rounded-full  [product]="product" />
+            </app-product-card>
 
           }
 
@@ -264,7 +251,6 @@ import { EcommerceStore } from '../../ecommerce-store';
 
     </mat-sidenav-container>
   `,
-
 })
 
 export default class ProductsGrid {
@@ -297,9 +283,7 @@ export default class ProductsGrid {
       const categoria = params.get('category');
 
       if (categoria) {
-
         this.store.setCategory(categoria);
-
       }
 
     });
@@ -316,11 +300,8 @@ export default class ProductsGrid {
     const games = this.store.carouselProducts();
 
     if (games.length === 0) {
-
       return;
-
     }
-
 
     const order = games.map((_, index) => index);
 
@@ -330,20 +311,14 @@ export default class ProductsGrid {
 
     this.carouselIndex.set(0);
 
-
     const firstGame = games[order[0]];
 
     const secondGame =
       games[order.length > 1 ? order[1] : order[0]];
 
+    this.currentImage.set(firstGame.bannerUrl);
 
-    this.currentImage.set(
-      firstGame.bannerUrl
-    );
-
-    this.nextImage.set(
-      secondGame.bannerUrl
-    );
+    this.nextImage.set(secondGame.bannerUrl);
 
     this.currentImageVisible.set(true);
 
@@ -358,20 +333,11 @@ export default class ProductsGrid {
 
     const order = this.carouselOrder();
 
-
-    if (
-      games.length === 0 ||
-      order.length === 0
-    ) {
-
+    if (games.length === 0 || order.length === 0) {
       return undefined;
-
     }
 
-
-    return games[
-      order[this.carouselIndex()]
-    ];
+    return games[order[this.carouselIndex()]];
 
   }
 
@@ -382,26 +348,16 @@ export default class ProductsGrid {
 
     const order = this.carouselOrder();
 
-
-    if (
-      games.length === 0 ||
-      order.length === 0
-    ) {
-
+    if (games.length === 0 || order.length === 0) {
       return undefined;
-
     }
-
 
     const nextPosition =
       this.carouselIndex() === order.length - 1
         ? 0
         : this.carouselIndex() + 1;
 
-
-    return games[
-      order[nextPosition]
-    ];
+    return games[order[nextPosition]];
 
   }
 
@@ -412,22 +368,14 @@ export default class ProductsGrid {
 
     const order = this.carouselOrder();
 
-
-    if (
-      games.length === 0 ||
-      order.length === 0
-    ) {
-
+    if (games.length === 0 || order.length === 0) {
       return 0;
-
     }
-
 
     const previousPosition =
       this.carouselIndex() === 0
         ? order.length - 1
         : this.carouselIndex() - 1;
-
 
     return order[previousPosition];
 
@@ -440,22 +388,14 @@ export default class ProductsGrid {
 
     const order = this.carouselOrder();
 
-
-    if (
-      games.length === 0 ||
-      order.length === 0
-    ) {
-
+    if (games.length === 0 || order.length === 0) {
       return 0;
-
     }
-
 
     const nextPosition =
       this.carouselIndex() === order.length - 1
         ? 0
         : this.carouselIndex() + 1;
-
 
     return order[nextPosition];
 
@@ -479,22 +419,17 @@ export default class ProductsGrid {
 
     const order = this.carouselOrder();
 
-
     if (
       order.length === 0 ||
       this.changingImage
     ) {
-
       return;
-
     }
-
 
     const newIndex =
       this.carouselIndex() === 0
         ? order.length - 1
         : this.carouselIndex() - 1;
-
 
     this.changeImage(newIndex);
 
@@ -505,22 +440,17 @@ export default class ProductsGrid {
 
     const order = this.carouselOrder();
 
-
     if (
       order.length === 0 ||
       this.changingImage
     ) {
-
       return;
-
     }
-
 
     const newIndex =
       this.carouselIndex() === order.length - 1
         ? 0
         : this.carouselIndex() + 1;
-
 
     this.changeImage(newIndex);
 
@@ -533,30 +463,23 @@ export default class ProductsGrid {
 
     const order = this.carouselOrder();
 
-
     if (
       games.length === 0 ||
       order.length === 0 ||
       this.changingImage
     ) {
-
       return;
-
     }
-
 
     this.changingImage = true;
 
-
     const newRealIndex = order[index];
-
 
     this.nextImage.set(
       games[newRealIndex].bannerUrl
     );
 
     this.carouselIndex.set(index);
-
 
     requestAnimationFrame(() => {
 
