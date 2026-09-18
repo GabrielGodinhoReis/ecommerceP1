@@ -32,8 +32,6 @@ import { EcommerceStore } from '../../ecommerce-store';
 
   selector: 'app-products-grid',
 
-  providers: [EcommerceStore],
-
   template: `
     <mat-sidenav-container class="h-full overflow-hidden">
 
@@ -51,12 +49,15 @@ import { EcommerceStore } from '../../ecommerce-store';
 
               <a
                 mat-list-item
+
                 [activated]="
                   categoria === 'Todos os Jogos'
                     ? store.category() === 'Games'
                     : categoria === store.category()
                 "
+
                 class="my-2"
+
                 [routerLink]="
                   categoria === 'Todos os Jogos'
                     ? ['/products/Games']
@@ -81,6 +82,7 @@ import { EcommerceStore } from '../../ecommerce-store';
 
       </mat-sidenav>
 
+
       <mat-sidenav-content class="bg-[#0f1117] p-6 overflow-y-auto">
 
         <div class="bg-[#0f1117] p-6">
@@ -90,6 +92,7 @@ import { EcommerceStore } from '../../ecommerce-store';
           </h1>
 
         </div>
+
 
         @if (
           store.category() === 'Games' &&
@@ -102,6 +105,7 @@ import { EcommerceStore } from '../../ecommerce-store';
               VEM VER NOSSAS RECOMENDAÇÕES!
             </h2>
 
+
             <div class="carousel-wrapper">
 
               @if (store.carouselProducts().length > 1) {
@@ -112,6 +116,7 @@ import { EcommerceStore } from '../../ecommerce-store';
                     [src]="
                       store.carouselProducts()[previousGameIndex].bannerUrl
                     "
+
                     [alt]="
                       store.carouselProducts()[previousGameIndex].name
                     "
@@ -121,27 +126,34 @@ import { EcommerceStore } from '../../ecommerce-store';
 
               }
 
+
               <section class="carousel">
 
                 <div class="carousel-image-wrapper">
 
-                  <!-- IMAGEM ATUAL -->
                   <img
                     class="carousel-image"
+
                     [class.image-visible]="currentImageVisible()"
+
                     [src]="currentImage()"
+
                     [alt]="currentGameData?.name"
                   />
 
-                  <!-- NOVA IMAGEM -->
+
                   <img
                     class="carousel-image"
+
                     [class.image-visible]="nextImageVisible()"
+
                     [src]="nextImage()"
+
                     [alt]="nextGameData?.name"
                   />
 
                 </div>
+
 
                 <div class="carousel-overlay">
 
@@ -151,20 +163,26 @@ import { EcommerceStore } from '../../ecommerce-store';
                       {{ currentGameData?.name }}
                     </h2>
 
+
                     <p>
                       {{ currentGameData?.description }}
                     </p>
 
+
                     <div class="carousel-bottom">
 
                       <span class="carousel-price">
+
                         R$
+
                         {{
                           currentGameData?.price
                             ?.toFixed(2)
                             ?.replace('.', ',')
                         }}
+
                       </span>
+
 
                       <button class="carousel-buy-button">
                         Comprar
@@ -176,12 +194,14 @@ import { EcommerceStore } from '../../ecommerce-store';
 
                 </div>
 
+
                 <button
                   class="carousel-button prev"
                   (click)="previousGame()"
                 >
                   ❮
                 </button>
+
 
                 <button
                   class="carousel-button next"
@@ -192,6 +212,7 @@ import { EcommerceStore } from '../../ecommerce-store';
 
               </section>
 
+
               @if (store.carouselProducts().length > 1) {
 
                 <div class="side-card right-card">
@@ -200,6 +221,7 @@ import { EcommerceStore } from '../../ecommerce-store';
                     [src]="
                       store.carouselProducts()[nextGameIndex].bannerUrl
                     "
+
                     [alt]="
                       store.carouselProducts()[nextGameIndex].name
                     "
@@ -215,9 +237,13 @@ import { EcommerceStore } from '../../ecommerce-store';
 
         }
 
+
         <p class="text-base text-gray-600 mb-6">
+
           {{ store.filteredProducts().length }} Jogos
+
         </p>
+
 
         <div class="responsive-grid">
 
@@ -238,7 +264,9 @@ import { EcommerceStore } from '../../ecommerce-store';
 
     </mat-sidenav-container>
   `,
+
 })
+
 export default class ProductsGrid {
 
   store = inject(EcommerceStore);
@@ -261,6 +289,7 @@ export default class ProductsGrid {
 
   changingImage = false;
 
+
   constructor() {
 
     this.route.paramMap.subscribe((params) => {
@@ -268,7 +297,9 @@ export default class ProductsGrid {
       const categoria = params.get('category');
 
       if (categoria) {
+
         this.store.setCategory(categoria);
+
       }
 
     });
@@ -279,13 +310,17 @@ export default class ProductsGrid {
 
   }
 
+
   loadCarousel() {
 
     const games = this.store.carouselProducts();
 
     if (games.length === 0) {
+
       return;
+
     }
+
 
     const order = games.map((_, index) => index);
 
@@ -295,10 +330,12 @@ export default class ProductsGrid {
 
     this.carouselIndex.set(0);
 
+
     const firstGame = games[order[0]];
 
     const secondGame =
       games[order.length > 1 ? order[1] : order[0]];
+
 
     this.currentImage.set(
       firstGame.bannerUrl
@@ -314,18 +351,23 @@ export default class ProductsGrid {
 
   }
 
+
   get currentGameData() {
 
     const games = this.store.carouselProducts();
 
     const order = this.carouselOrder();
 
+
     if (
       games.length === 0 ||
       order.length === 0
     ) {
+
       return undefined;
+
     }
+
 
     return games[
       order[this.carouselIndex()]
@@ -333,23 +375,29 @@ export default class ProductsGrid {
 
   }
 
+
   get nextGameData() {
 
     const games = this.store.carouselProducts();
 
     const order = this.carouselOrder();
 
+
     if (
       games.length === 0 ||
       order.length === 0
     ) {
+
       return undefined;
+
     }
+
 
     const nextPosition =
       this.carouselIndex() === order.length - 1
         ? 0
         : this.carouselIndex() + 1;
+
 
     return games[
       order[nextPosition]
@@ -357,27 +405,34 @@ export default class ProductsGrid {
 
   }
 
+
   get previousGameIndex(): number {
 
     const games = this.store.carouselProducts();
 
     const order = this.carouselOrder();
 
+
     if (
       games.length === 0 ||
       order.length === 0
     ) {
+
       return 0;
+
     }
+
 
     const previousPosition =
       this.carouselIndex() === 0
         ? order.length - 1
         : this.carouselIndex() - 1;
 
+
     return order[previousPosition];
 
   }
+
 
   get nextGameIndex(): number {
 
@@ -385,21 +440,27 @@ export default class ProductsGrid {
 
     const order = this.carouselOrder();
 
+
     if (
       games.length === 0 ||
       order.length === 0
     ) {
+
       return 0;
+
     }
+
 
     const nextPosition =
       this.carouselIndex() === order.length - 1
         ? 0
         : this.carouselIndex() + 1;
 
+
     return order[nextPosition];
 
   }
+
 
   startAutoPlay() {
 
@@ -413,45 +474,58 @@ export default class ProductsGrid {
 
   }
 
+
   previousGame() {
 
     const order = this.carouselOrder();
+
 
     if (
       order.length === 0 ||
       this.changingImage
     ) {
+
       return;
+
     }
+
 
     const newIndex =
       this.carouselIndex() === 0
         ? order.length - 1
         : this.carouselIndex() - 1;
 
+
     this.changeImage(newIndex);
 
   }
+
 
   nextGame() {
 
     const order = this.carouselOrder();
 
+
     if (
       order.length === 0 ||
       this.changingImage
     ) {
+
       return;
+
     }
+
 
     const newIndex =
       this.carouselIndex() === order.length - 1
         ? 0
         : this.carouselIndex() + 1;
 
+
     this.changeImage(newIndex);
 
   }
+
 
   changeImage(index: number) {
 
@@ -459,26 +533,30 @@ export default class ProductsGrid {
 
     const order = this.carouselOrder();
 
+
     if (
       games.length === 0 ||
       order.length === 0 ||
       this.changingImage
     ) {
+
       return;
+
     }
+
 
     this.changingImage = true;
 
+
     const newRealIndex = order[index];
 
-    /*
-     * Prepara a nova imagem ANTES da animação.
-     */
+
     this.nextImage.set(
       games[newRealIndex].bannerUrl
     );
 
     this.carouselIndex.set(index);
+
 
     requestAnimationFrame(() => {
 
@@ -487,6 +565,7 @@ export default class ProductsGrid {
       this.currentImageVisible.set(false);
 
     });
+
 
     setTimeout(() => {
 
@@ -506,9 +585,7 @@ export default class ProductsGrid {
 
   }
 
-  /*
-   * Permite ir diretamente para uma posição.
-   */
+
   goToGame(index: number) {
 
     this.changeImage(index);
