@@ -712,11 +712,8 @@ export const EcommerceStore = signalStore(
     wishlistItems: updatedWishlistItems
   });
 
-  console.log('WISHLIST DEPOIS:', store.wishlistItems());
-  console.log('QUANTIDADE:', store.wishlistItems().length);
-
   toaster.sucess(
-    "Esse produto foi adicionado à sua Lista de Desejos."
+    "Esse produto foi adicionado à sua Lista de Desejos.",
   );
 },
 
@@ -724,7 +721,8 @@ export const EcommerceStore = signalStore(
         patchState(store, {
             wishlistItems: store.wishlistItems().filter((p) => p.id !== product.id)
         });
-        toaster.sucess("Esse produto foi removido da sua Lista de Desejos.");
+        toaster.error("Esse produto foi removido da sua Lista de Desejos.",
+        );
     }
 
   }))
