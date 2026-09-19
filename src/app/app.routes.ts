@@ -4,14 +4,18 @@ export const routes: Routes = [
   {
     path: '',
     redirectTo: 'products/Games',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: 'products/:category',
-    loadComponent: () => import('./pages/products-grid/products-grid')
+    loadComponent: () => import('./pages/products-grid/products-grid'),
   },
   {
     path: 'wishlist',
-    loadComponent: () => import('./pages/my-wishlist/my-wishlist')
-  }
+    loadComponent: () => import('./pages/my-wishlist/my-wishlist'),
+  },
+  {
+    path: 'cart',
+    loadComponent: () => import('./pages/cart/cart'),
+  },
 ];
