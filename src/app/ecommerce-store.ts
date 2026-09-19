@@ -715,7 +715,7 @@ export const EcommerceStore = signalStore(
   });
 
   toaster.sucess(
-    "Esse Jogo foi adicionado à sua Lista de Desejos!",
+    "Esse Jogo foi Adicionado à sua Lista de Desejos!",
   );
 },
 
@@ -724,14 +724,14 @@ export const EcommerceStore = signalStore(
             wishlistItems: store.wishlistItems().filter((p) => p.id !== product.id)
     
     });
-        toaster.error("Esse Jogo foi removido da sua Lista de Desejos!",
+        toaster.error("Esse Jogo foi Removido da sua Lista de Desejos!",
         );
     },
 
     clearWishlist:() => {
 
       patchState(store, { wishlistItems: [] })
-        toaster.error('Todos os Jogos foram removidos da Lista de Desejos!');
+        toaster.error('Todos os Jogos foram Removidos da Lista de Desejos!');
       }
 
   }))

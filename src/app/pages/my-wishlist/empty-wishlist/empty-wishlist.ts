@@ -16,11 +16,11 @@ import { RouterLink } from '@angular/router';
       </div>
 
       <h2 class="text-2xl font-bold text-white mb-3">
-        Sua Lista de Desejos está vazia
+        Sua Lista de Desejos está Vazia
       </h2>
 
       <p class="text-white mb-8">
-        Salve os Jogos que você gostar para ver depois!
+        Salve os Jogos que você gostar para ver Depois!
       </p>
 
       <button
