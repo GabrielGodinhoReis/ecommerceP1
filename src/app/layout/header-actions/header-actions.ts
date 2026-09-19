@@ -1,13 +1,15 @@
 import { Component, inject } from '@angular/core';
-
 import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 import { MatBadge } from '@angular/material/badge';
 
 import { EcommerceStore } from '../../ecommerce-store';
+import { CartStore } from '../../cart-store';
 
 @Component({
+  selector: 'app-header-actions',
+  standalone: true,
   imports: [
     MatButton,
     MatIconButton,
@@ -15,8 +17,6 @@ import { EcommerceStore } from '../../ecommerce-store';
     RouterLink,
     MatBadge
   ],
-
-  selector: 'app-header-actions',
 
   styles: `
     :host {
@@ -51,7 +51,13 @@ import { EcommerceStore } from '../../ecommerce-store';
         <mat-icon>favorite</mat-icon>
       </button>
 
-      <button matIconButton>
+      <button
+        matIconButton
+        routerLink="/cart"
+        class="wishlist-button"
+        [matBadge]="cartStore.cartCount()"
+        [matBadgeHidden]="cartStore.cartCount() === 0"
+      >
         <mat-icon>shopping_cart</mat-icon>
       </button>
 
@@ -68,4 +74,5 @@ import { EcommerceStore } from '../../ecommerce-store';
 })
 export class HeaderActions {
   store = inject(EcommerceStore);
+  cartStore = inject(CartStore);
 }
