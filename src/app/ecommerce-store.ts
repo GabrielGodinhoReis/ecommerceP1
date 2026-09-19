@@ -722,7 +722,8 @@ export const EcommerceStore = signalStore(
     removeFromWishlist: (product: Product) => {
         patchState(store, {
             wishlistItems: store.wishlistItems().filter((p) => p.id !== product.id)
-        });
+    
+    });
         toaster.error("Esse Jogo foi removido da sua Lista de Desejos!",
         );
     },
@@ -734,5 +735,4 @@ export const EcommerceStore = signalStore(
       }
 
   }))
-
 );

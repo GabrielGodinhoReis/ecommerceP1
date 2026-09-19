@@ -16,7 +16,7 @@ import { RouterLink } from '@angular/router';
       </div>
 
       <h2 class="text-2xl font-bold text-white mb-3">
-        Sua lista de desejos está vazia
+        Sua Lista de Desejos está vazia
       </h2>
 
       <p class="text-white mb-8">

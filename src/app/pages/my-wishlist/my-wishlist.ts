@@ -63,7 +63,7 @@ import { EmptyWishlist } from './empty-wishlist/empty-wishlist';
         <div class="mt-8 flex justify-center">
           <button
             matButton="outline"
-            class="!border-[#ef4444] !text-[#ef4444] !flex !items-center !justify-center !gap-2 !rounded-xl !px-5 !py-2.5 font-medium shadow-sm hover:!bg-[#ef4444] hover:!text-white transition-all duration-200"
+            class="!bg-gray-700 !border-[#ef4444] !text-[#ef4444] !flex !items-center !justify-center !gap-2 !rounded-xl !px-5 !py-2.5 font-medium shadow-sm hover:!bg-[#ef4444] hover:!text-white transition-all duration-200"
             (click)="store.clearWishlist()"
           >
             <mat-icon class="!m-0 !text-[20px]">
