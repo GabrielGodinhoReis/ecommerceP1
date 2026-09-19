@@ -54,7 +54,7 @@ export const CartStore = signalStore(
           patchState(store, {
             items: [...currentItems, { product, quantity: 1 }],
           });
-          toaster.sucess('Produto adicionado ao carrinho!');
+          toaster.sucess('Jogo adicionado ao carrinho!');
         }
       },
       addManyToCart(products: any[]) {
@@ -93,7 +93,7 @@ export const CartStore = signalStore(
       removeFromCart(productId: number) {
         const updated = store.items().filter((i) => i.product.id !== productId);
         patchState(store, { items: updated });
-        toaster.error('Produto removido do carrinho!');
+        toaster.error('Jogo removido do carrinho!');
       },
       clearCart() {
         patchState(store, { items: [] });

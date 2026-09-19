@@ -13,25 +13,39 @@ import { EcommerceStore } from '../../ecommerce-store';
     <div class="max-w-[1200px] mx-auto p-6 text-white space-y-6">
       <h1 class="text-3xl font-bold">Meu Carrinho</h1>
 
-      <!-- Banner da Wishlist (Lista de Desejos) -->
-      <div class="p-4 bg-gray-900 rounded-xl border border-gray-800 flex items-center justify-between">
+      <!-- BANNER DA WISHLIST -->
+      <div class="p-4 bg-gray-900 rounded-xl flex items-center justify-between">
         <div class="flex items-center gap-3">
-          <mat-icon class="!text-red-500">favorite</mat-icon>
+          <mat-icon class="!text-red-500"> favorite </mat-icon>
+
           <div>
-            <h3 class="font-bold text-white">Lista de Desejos ({{ wishlistStore.wishlistCount() }})</h3>
-            <p class="text-sm text-gray-400">Você tem {{ wishlistStore.wishlistCount() }} itens salvos para depois</p>
+            <h3 class="font-bold text-white">
+              Lista de Desejos ({{ wishlistStore.wishlistCount() }})
+            </h3>
+
+            <p class="text-sm text-gray-400">
+              Você tem {{ wishlistStore.wishlistCount() }}
+              itens salvos para depois
+            </p>
           </div>
         </div>
+
         <div class="flex items-center gap-4">
-          <a routerLink="/wishlist" class="text-purple-400 hover:underline text-sm font-semibold">Ver Todos</a>
+          <a routerLink="/wishlist" class="text-purple-400 hover:underline text-sm font-semibold">
+            Ver Todos
+          </a>
+
           @if (wishlistStore.wishlistCount() > 0) {
             <button
-              mat-raised-button
-              color="primary"
-              class="!bg-purple-600"
+              matButton
+              class="!bg-gray-700 !text-white !flex !items-center !justify-center !gap-2 !rounded-xl !px-5 !py-2.5 font-medium shadow-sm transition-all duration-200 hover:!bg-[#8b5cf6]"
               (click)="addAllFromWishlist()"
             >
-              Adicionar Todos ao Carrinho
+              <mat-icon class="!m-0 !flex !items-center !justify-center !text-[20px] !leading-none">
+                shopping_cart
+              </mat-icon>
+
+              <span class="!leading-none"> Adicionar Todos ao Carrinho </span>
             </button>
           }
         </div>
@@ -39,72 +53,153 @@ import { EcommerceStore } from '../../ecommerce-store';
 
       @if (store.cartCount() > 0) {
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <!-- Lista de Produtos do Carrinho -->
+          <!-- ITENS DO CARRINHO -->
           <div class="lg:col-span-2 space-y-4">
             <div class="flex items-center justify-between mb-2">
-              <h2 class="text-xl font-bold text-gray-300">Itens do Carrinho ({{ store.cartCount() }})</h2>
+              <h2 class="text-xl font-bold text-gray-300">
+                Itens do Carrinho ({{ store.cartCount() }})
+              </h2>
+
               <button
                 matButton
-                class="!text-red-400 hover:!text-red-300 !flex !items-center !gap-1"
+                class="!bg-gray-700 !text-[#ef4444] !flex !items-center !justify-center !gap-2 !rounded-xl !px-5 !py-2.5 font-medium shadow-sm transition-all duration-200 hover:!bg-[#ef4444] hover:!text-white"
                 (click)="store.clearCart()"
               >
-                <mat-icon class="!text-red-400 !text-sm">delete_sweep</mat-icon>
-                <span>Esvaziar Carrinho</span>
+                <mat-icon
+                  class="!m-0 !flex !items-center !justify-center !text-[20px] !leading-none"
+                >
+                  delete_sweep
+                </mat-icon>
+
+                <span class="!leading-none"> Esvaziar Carrinho </span>
               </button>
             </div>
 
+            <!-- PRODUTOS -->
             @for (item of store.items(); track item.product.id) {
-              <div class="flex items-center justify-between p-4 bg-gray-900 rounded-xl shadow-lg border border-gray-800">
+              <div class="flex items-center justify-between p-4 bg-gray-900 rounded-xl shadow-lg">
                 <div class="flex items-center gap-4">
-                  <img [src]="item.product.imageUrl || item.product.bannerUrl" [alt]="item.product.name" class="w-20 h-24 object-cover rounded-lg" />
+                  <!-- CAPA 600x900 -->
+                  <img
+                    [src]="item.product.imageUrl || item.product.bannerUrl"
+                    [alt]="item.product.name"
+                    class="w-[88px] h-[132px] object-cover rounded-lg"
+                  />
+
                   <div>
-                    <h3 class="font-bold text-lg text-white">{{ item.product.name }}</h3>
-                    <p class="text-blue-400 font-semibold">{{ item.product.price | currency:'BRL' }}</p>
+                    <h3 class="font-bold text-lg text-white">
+                      {{ item.product.name }}
+                    </h3>
+
+                    <p class="text-blue-400 font-semibold">
+                      {{ item.product.price | currency: 'BRL' }}
+                    </p>
                   </div>
                 </div>
 
-                <!-- Controles de Quantidade -->
                 <div class="flex items-center gap-3">
+                  <!-- DIMINUIR QUANTIDADE -->
                   <button mat-icon-button (click)="store.updateQuantity(item.product.id, -1)">
-                    <mat-icon class="!text-white">remove</mat-icon>
+                    <mat-icon class="!text-white"> remove </mat-icon>
                   </button>
-                  <span class="font-bold text-lg text-white px-2">{{ item.quantity }}</span>
+
+                  <!-- QUANTIDADE -->
+                  <span class="font-bold text-lg text-white px-2">
+                    {{ item.quantity }}
+                  </span>
+
+                  <!-- AUMENTAR QUANTIDADE -->
                   <button mat-icon-button (click)="store.updateQuantity(item.product.id, 1)">
-                    <mat-icon class="!text-white">add</mat-icon>
+                    <mat-icon class="!text-white"> add </mat-icon>
                   </button>
+
+                  <!-- REMOVER ITEM -->
                   <button mat-icon-button (click)="store.removeFromCart(item.product.id)">
-                    <mat-icon class="!text-red-500">delete</mat-icon>
+                    <mat-icon class="!text-red-500"> delete </mat-icon>
                   </button>
                 </div>
               </div>
             }
           </div>
 
-          <!-- Resumo do Pedido com Impostos -->
-          <div class="p-6 bg-gray-900 rounded-xl shadow-lg border border-gray-800 h-fit space-y-4">
-            <h2 class="text-xl font-bold border-b border-gray-800 pb-3 text-white">Resumo da Compra</h2>
-            <div class="flex justify-between text-lg text-gray-300">
-              <span>Subtotal:</span>
-              <span class="font-bold text-white">{{ store.subtotal() | currency:'BRL' }}</span>
+          <!-- RESUMO DA COMPRA -->
+          <div class="p-6 bg-gray-900 rounded-xl shadow-lg h-fit space-y-4">
+            <h2 class="text-xl font-bold border-b border-gray-800 pb-3 text-white">
+              Resumo da Compra
+            </h2>
+
+            <div class="space-y-3 max-h-[300px] overflow-y-auto">
+              @for (item of store.items(); track item.product.id) {
+                <div class="flex items-center justify-between gap-3">
+                  <div class="min-w-0">
+                    <p class="text-sm font-semibold text-white truncate">
+                      {{ item.product.name }}
+                    </p>
+
+                    <p class="text-xs text-gray-400">
+                      {{ item.quantity }}x
+                      {{ item.product.price | currency: 'BRL' }}
+                    </p>
+                  </div>
+
+                  <span class="text-sm font-bold text-white whitespace-nowrap">
+                    {{ item.product.price * item.quantity | currency: 'BRL' }}
+                  </span>
+                </div>
+              }
             </div>
-            <div class="flex justify-between text-lg text-gray-300">
-              <span>Imposto (5%):</span>
-              <span class="font-bold text-white">{{ store.tax() | currency:'BRL' }}</span>
+
+            <!-- TOTAL -->
+            <div class="flex justify-between text-xl font-extrabold border-t border-gray-800 pt-3">
+              <span class="!text-green-400"> Total: </span>
+
+              <span class="!text-green-400">
+                {{ store.subtotal() | currency: 'BRL' }}
+              </span>
             </div>
-            <div class="flex justify-between text-xl font-extrabold text-green-400 border-t border-gray-800 pt-3">
-              <span>Total:</span>
-              <span>{{ store.total() | currency:'BRL' }}</span>
-            </div>
-            <button mat-raised-button color="primary" class="w-full mt-4 py-3 text-lg !bg-purple-600">
-              Finalizar Compra
+
+            <!-- FINALIZAR COMPRA -->
+            <button
+              matButton
+              class="w-full !bg-gray-700 !text-white !flex !items-center !justify-center !rounded-xl !px-5 !py-3 !text-lg font-medium shadow-sm transition-all duration-200 hover:!bg-[#8b5cf6]"
+            >
+              <span class="!flex !items-center !justify-center !w-full !leading-none">
+                Finalizar Compra
+              </span>
             </button>
+
+            <!-- VOLTAR ÀS COMPRAS -->
+            <a
+              routerLink="/"
+              matButton
+              class="w-full !bg-gray-700 !text-white !flex !items-center !justify-center !gap-2 !rounded-xl !px-5 !py-3 !text-lg font-medium shadow-sm transition-all duration-200 hover:!bg-[#8b5cf6]"
+            >
+              <mat-icon class="!m-0 !flex !items-center !justify-center !text-[20px] !leading-none">
+                arrow_back
+              </mat-icon>
+
+              <span class="!flex !items-center !justify-center !leading-none">
+                Voltar às Compras
+              </span>
+            </a>
           </div>
         </div>
       } @else {
-        <div class="text-center py-16 space-y-4 bg-gray-900 rounded-xl border border-gray-800">
-          <mat-icon class="text-6xl text-gray-500 !w-16 !h-16 !text-[64px]">shopping_cart</mat-icon>
-          <h2 class="text-2xl font-bold text-gray-300">Seu carrinho está vazio</h2>
-          <a routerLink="/" mat-raised-button color="primary" class="!bg-purple-600">Continuar Comprando</a>
+        <!-- CARRINHO VAZIO -->
+        <div class="text-center py-16 space-y-4 bg-gray-900 rounded-xl">
+          <mat-icon class="text-6xl text-gray-500 !w-16 !h-16 !text-[64px]">
+            shopping_cart
+          </mat-icon>
+
+          <h2 class="text-2xl font-bold text-white">Seu carrinho está vazio</h2>
+
+          <a
+            routerLink="/"
+            matButton
+            class="!bg-gray-700 !text-white !inline-flex !items-center !justify-center !gap-2 !rounded-xl !px-5 !py-2.5 font-medium shadow-sm transition-all duration-200 hover:!bg-[#8b5cf6]"
+          >
+            Continuar Comprando
+          </a>
         </div>
       }
     </div>
@@ -116,8 +211,10 @@ export default class Cart {
 
   addAllFromWishlist() {
     const items = this.wishlistStore.wishlistItems();
+
     if (items.length > 0) {
       this.store.addManyToCart(items);
+
       this.wishlistStore.clearWishlist();
     }
   }
