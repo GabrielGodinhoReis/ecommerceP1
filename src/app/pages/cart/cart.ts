@@ -56,7 +56,7 @@ import { EcommerceStore } from '../../ecommerce-store';
           <!-- ITENS DO CARRINHO -->
           <div class="lg:col-span-2 space-y-4">
             <div class="flex items-center justify-between mb-2">
-              <h2 class="text-xl font-bold text-gray-300">
+              <h2 class="text-xl font-bold text-white">
                 Itens do Carrinho ({{ store.cartCount() }})
               </h2>
 
@@ -91,7 +91,7 @@ import { EcommerceStore } from '../../ecommerce-store';
                       {{ item.product.name }}
                     </h3>
 
-                    <p class="text-blue-400 font-semibold">
+                    <p class="!text-[#8b5cf6] font-semibold">
                       {{ item.product.price | currency: 'BRL' }}
                     </p>
                   </div>
