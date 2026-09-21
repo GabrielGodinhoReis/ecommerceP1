@@ -515,20 +515,23 @@ export default class ProductsGrid {
   }
 
   changeImage(index: number) {
+  // Proteção para Server-Side Rendering (Node.js)
+  if (typeof window === 'undefined') {
+    return;
+  }
 
-    const games = this.store.carouselProducts();
+  const games = this.store.carouselProducts();
+  const order = this.carouselOrder();
 
-    const order = this.carouselOrder();
+  if (
+    games.length === 0 ||
+    order.length === 0 ||
+    this.changingImage
+  ) {
+    return;
+  }
 
-    if (
-      games.length === 0 ||
-      order.length === 0 ||
-      this.changingImage
-    ) {
-
-      return;
-
-    }
+  // Mantenha o restante do código original da função abaixo...
 
     this.changingImage = true;
 

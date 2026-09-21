@@ -3,6 +3,7 @@ import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 import { MatBadge } from '@angular/material/badge';
+import { MatDialog } from '@angular/material/dialog';
 
 import { EcommerceStore } from '../../ecommerce-store';
 import { CartStore } from '../../cart-store';
@@ -61,13 +62,20 @@ import { CartStore } from '../../cart-store';
         <mat-icon>shopping_cart</mat-icon>
       </button>
 
-      <button matButton>
-        Entrar
-      </button>
+      @if (store.user(); as user) {
+        <span class="text-sm font-semibold text-white mx-2">{{ user.name }}</span>
+        <button matButton (click)="store.signOut()">
+          Sair
+        </button>
+      } @else {
+        <button matButton (click)="openAuth('signin')">
+          Entrar
+        </button>
 
-      <button matButton="filled">
-        Cadastrar
-      </button>
+        <button matButton="filled" (click)="openAuth('signup')">
+          Cadastrar
+        </button>
+      }
 
     </div>
   `,
@@ -75,4 +83,13 @@ import { CartStore } from '../../cart-store';
 export class HeaderActions {
   store = inject(EcommerceStore);
   cartStore = inject(CartStore);
+  private dialog = inject(MatDialog);
+
+  async openAuth(mode: 'signin' | 'signup') {
+    const { default: SignInDialog } = await import('../../components/sign-in-dialog/sign-in-dialog');
+    this.dialog.open(SignInDialog, {
+      disableClose: true,
+      data: { mode }
+    });
+  }
 }
