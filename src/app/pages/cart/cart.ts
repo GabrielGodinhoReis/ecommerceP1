@@ -128,7 +128,7 @@ import { EcommerceStore } from '../../ecommerce-store';
               Resumo da Compra
             </h2>
 
-            <div class="space-y-3 max-h-[300px] overflow-y-auto">
+            <div class="space-y-3 max-h-[300px] overflow-y-auto pr-1">
               @for (item of store.items(); track item.product.id) {
                 <div class="flex items-center justify-between gap-3">
                   <div class="min-w-0">
@@ -149,12 +149,24 @@ import { EcommerceStore } from '../../ecommerce-store';
               }
             </div>
 
-            <!-- TOTAL -->
+            <!-- SUB-VALORES (IMPOSTO) -->
+            <div class="space-y-2 border-t border-gray-800 pt-3 text-gray-300 text-sm">
+              <div class="flex justify-between">
+                <span>Subtotal:</span>
+                <span class="font-bold text-white">{{ store.subtotal() | currency: 'BRL' }}</span>
+              </div>
+              <div class="flex justify-between">
+                <span>Imposto (5%):</span>
+                <span class="font-bold text-white">{{ store.tax() | currency: 'BRL' }}</span>
+              </div>
+            </div>
+
+            <!-- TOTAL CALCULADO -->
             <div class="flex justify-between text-xl font-extrabold border-t border-gray-800 pt-3">
               <span class="!text-green-400"> Total: </span>
 
               <span class="!text-green-400">
-                {{ store.subtotal() | currency: 'BRL' }}
+                {{ store.total() | currency: 'BRL' }}
               </span>
             </div>
 
@@ -162,6 +174,7 @@ import { EcommerceStore } from '../../ecommerce-store';
             <button
               matButton
               class="w-full !bg-gray-700 !text-white !flex !items-center !justify-center !rounded-xl !px-5 !py-3 !text-lg font-medium shadow-sm transition-all duration-200 hover:!bg-[#8b5cf6]"
+              (click)="wishlistStore.proceedToCheckout()"
             >
               <span class="!flex !items-center !justify-center !w-full !leading-none">
                 Finalizar Compra
