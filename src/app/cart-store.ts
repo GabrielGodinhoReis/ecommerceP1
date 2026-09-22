@@ -44,7 +44,13 @@ export const CartStore = signalStore(
     const toaster = inject(Toaster);
 
     return {
-      addToCart(product: any) {
+      addToCart(product: any, quantity: number = 1) {
+        // Não permite adicionar jogo fora de estoque
+        if (!product.inStock) {
+          toaster.error('Este jogo está fora de estoque!');
+          return;
+        }
+
         const currentItems = store.items();
 
         const existingIndex = currentItems.findIndex((i) => i.product.id === product.id);
@@ -54,7 +60,7 @@ export const CartStore = signalStore(
 
           updated[existingIndex] = {
             ...updated[existingIndex],
-            quantity: updated[existingIndex].quantity + 1,
+            quantity: updated[existingIndex].quantity + quantity,
           };
 
           patchState(store, {
@@ -68,7 +74,7 @@ export const CartStore = signalStore(
               ...currentItems,
               {
                 product,
-                quantity: 1,
+                quantity,
               },
             ],
           });
@@ -78,11 +84,23 @@ export const CartStore = signalStore(
       },
 
       addManyToCart(products: any[]) {
-        if (!products.length) return;
+        if (!products.length) {
+          return [];
+        }
+
+        // Pega somente os jogos que estão disponíveis
+        const availableProducts = products.filter((product) => product.inStock);
+
+        // Nenhum jogo disponível
+        if (!availableProducts.length) {
+          toaster.error('Nenhum jogo disponível em estoque!');
+
+          return [];
+        }
 
         let currentItems = [...store.items()];
 
-        products.forEach((product) => {
+        availableProducts.forEach((product) => {
           const existingIndex = currentItems.findIndex((i) => i.product.id === product.id);
 
           if (existingIndex > -1) {
@@ -102,7 +120,10 @@ export const CartStore = signalStore(
           items: currentItems,
         });
 
-        toaster.sucess('Itens da lista de desejos adicionados ao carrinho!');
+        toaster.sucess('Jogos da lista de desejos adicionados ao Carrinho!');
+
+        // Retorna SOMENTE os que realmente foram adicionados
+        return availableProducts;
       },
 
       updateQuantity(productId: number, delta: number) {
@@ -110,17 +131,7 @@ export const CartStore = signalStore(
 
         if (!currentItem) return;
 
-        // Se clicar no "-" com apenas 1 unidade,
-        // remove o jogo do carrinho
         if (delta < 0 && currentItem.quantity === 1) {
-          const updated = store.items().filter((item) => item.product.id !== productId);
-
-          patchState(store, {
-            items: updated,
-          });
-
-          toaster.error('Jogo removido do carrinho!');
-
           return;
         }
 

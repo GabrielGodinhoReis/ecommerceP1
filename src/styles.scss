@@ -275,6 +275,19 @@ mat-sidenav {
   transition: opacity 0.4s ease-in-out;
 }
 
+.carousel-image {
+  pointer-events: auto;
+}
+
+.carousel-overlay {
+  pointer-events: none;
+}
+
+.carousel-buy-button,
+.carousel-button {
+  pointer-events: auto;
+}
+
 .carousel-image.image-visible {
   opacity: 0.55;
 }

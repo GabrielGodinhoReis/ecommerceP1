@@ -1,49 +1,88 @@
-import { Component, computed, inject, input, output } from '@angular/core';
+import { Component, inject, input, output } from '@angular/core';
+
 import { CurrencyPipe } from '@angular/common';
-import { MatButton, MatIconButton } from '@angular/material/button';
+
+import { MatButton } from '@angular/material/button';
+
 import { MatIcon } from '@angular/material/icon';
 
 import { Product } from '../../models/product';
+
 import { CartStore } from '../../cart-store';
 
+import { RouterLink } from '@angular/router';
+
 @Component({
-  imports: [CurrencyPipe, MatIcon, MatButton, MatIconButton],
+  imports: [CurrencyPipe, MatIcon, MatButton, RouterLink],
   selector: 'app-product-card',
   styles: ``,
   template: `
-    <div
-      class="relative bg-gray-900 cursor-pointer rounded-xl shadow-lg overflow-hidden flex flex-col h-full"
-    >
-      <img [src]="product().imageUrl" class="w-full aspect-[2/3] object-cover rounded-xl" />
+    <div class="relative bg-gray-900 rounded-xl shadow-lg overflow-hidden flex flex-col h-full">
+      <!-- IMAGEM -->
+      <div class="grid">
+        <img
+          [src]="product().imageUrl"
+          class="col-start-1 row-start-1 w-full aspect-[2/3] object-cover rounded-xl cursor-pointer"
+          [routerLink]="['/product', product().id]"
+        />
 
-      <ng-content />
+        <!-- BOTÕES EXTRAS (Wishlist / Excluir) -->
+        <div class="col-start-1 row-start-1 justify-self-end self-start m-3 z-10">
+          <ng-content />
+        </div>
+      </div>
 
+      <!-- INFORMAÇÕES -->
       <div class="p-5 flex flex-col flex-1">
-        <h3 class="text-lg font-semibold text-white mb-2 leading-tight">
+        <!-- NOME -->
+        <h3
+          class="text-lg font-semibold text-white mb-2 leading-tight cursor-pointer"
+          [routerLink]="['/product', product().id]"
+        >
           {{ product().name }}
         </h3>
 
-        <p class="text-sm text-white mb-4 flex-1 leading-relaxed">
+        <!-- DESCRIÇÃO -->
+        <p
+          class="text-sm text-white mb-4 flex-1 leading-relaxed cursor-pointer"
+          [routerLink]="['/product', product().id]"
+        >
           {{ product().description }}
         </p>
 
-        <div class="text-sm font-medium mb-4 text-white">
+        <!-- ESTOQUE -->
+        <div
+          class="text-sm font-medium mb-4 text-white cursor-pointer"
+          [routerLink]="['/product', product().id]"
+        >
           {{ product().inStock ? 'Em Estoque' : 'Fora de Estoque' }}
         </div>
 
+        <!-- PREÇO + CARRINHO -->
         <div class="flex items-center justify-between mt-auto">
-          <span class="text-1xl font-bold text-white">
+          <!-- PREÇO -->
+          <span
+            class="text-1xl font-bold text-white cursor-pointer"
+            [routerLink]="['/product', product().id]"
+          >
             {{ product().price | currency: 'BRL' : 'symbol' : '1.2-2' }}
           </span>
 
+          <!-- ADICIONAR AO CARRINHO -->
           <button
             matButton="filled"
+            type="button"
             class="flex items-center gap-1 whitespace-nowrap text-sm !text-sm"
-            (click)="cartStore.addToCart(product())"
+            [class.!bg-gray-600]="!product().inStock"
+            [class.!text-gray-300]="!product().inStock"
+            (click)="addToCart()"
+            [disabled]="!product().inStock"
           >
             <mat-icon>shopping_cart</mat-icon>
 
-            <span class="whitespace-nowrap"> Adicionar ao Carrinho </span>
+            <span class="whitespace-nowrap">
+              {{ product().inStock ? 'Adicionar ao Carrinho' : 'Fora de Estoque' }}
+            </span>
           </button>
         </div>
       </div>
@@ -52,7 +91,13 @@ import { CartStore } from '../../cart-store';
 })
 export class ProductCard {
   product = input.required<Product>();
+
   cartStore = inject(CartStore);
 
   addToCartClicked = output<Product>();
+
+  addToCart() {
+    this.cartStore.addToCart(this.product());
+    this.addToCartClicked.emit(this.product());
+  }
 }

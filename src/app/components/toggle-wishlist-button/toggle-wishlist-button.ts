@@ -17,7 +17,7 @@ import { MatButton, MatIconButton } from '@angular/material/button';
 
   template: `
     <button
-      class="!absolute z-10 top-3 right-3 w-10 h-10 rounded-full !bg-gray-900 border-0 shadow-md flex items-center justify-center cursor-pointer transition-all duration-200 hover:scale-110 hover:shadow-lg"
+      class="right-3 w-10 h-10 rounded-full !bg-gray-900 border-0 shadow-md flex items-center justify-center cursor-pointer transition-all duration-200 hover:scale-110 hover:shadow-lg"
       [class.!text-red-500]="isInWishlist()"
       [class.!text-gray-400]="!isInWishlist()"
       matIconButton
