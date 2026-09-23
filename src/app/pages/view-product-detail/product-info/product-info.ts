@@ -163,125 +163,89 @@ import { CartStore } from '../../../cart-store';
   `,
 
   template: `
-    <div
-      class="text-xs rounded-xl bg-purple-600 text-white px-3 py-1 w-fit mb-2"
-    >
+    <div class="text-xs rounded-xl bg-purple-600 text-white px-3 py-1 w-fit mb-2">
       {{ product().category | titlecase }}
     </div>
 
-    <h1
-      class="product-title text-2xl sm:text-3xl font-extrabold mb-3"
-    >
+    <h1 class="product-title text-2xl sm:text-3xl font-extrabold mb-3">
       {{ product().name }}
     </h1>
 
-    <p
-      class="product-price text-2xl sm:text-3xl font-extrabold mb-4"
-    >
+    <p class="product-price text-2xl sm:text-3xl font-extrabold mb-4">
       {{ product().price | currency: 'BRL' : 'symbol' : '1.2-2' }}
     </p>
 
-    <app-stock-status
-      class="mb-4"
-      [inStock]="product().inStock"
-    />
+    <app-stock-status class="mb-4" [inStock]="product().inStock" />
 
-    <p class="font-semibold mb-2">
-      Descrição
-    </p>
+    <p class="font-semibold mb-2">Descrição</p>
 
-    <p
-      class="product-description text-white border-b border-gray-200 pb-4"
-    >
+    <p class="product-description text-white border-b border-gray-200 pb-4">
       {{ product().description }}
     </p>
 
-    <div
-      class="quantity-container flex items-center gap-2 mb-3 pt-4"
-    >
-      <span class="font-semibold">
-        Quantidade:
-      </span>
+    <div class="quantity-container flex items-center gap-2 mb-3 pt-4">
+      <span class="font-semibold"> Quantidade: </span>
 
-      <app-qty-selector
-        [quantity]="quantity()"
-        (qtyUpdated)="quantity.set($event)"
-      />
+      <app-qty-selector [quantity]="quantity()" (qtyUpdated)="quantity.set($event)" />
     </div>
 
-    <div
-      class="purchase-actions mb-4 border-b border-gray-200 pb-4"
-    >
+    <div class="purchase-actions mb-4 border-b border-gray-200 pb-4">
       <button
         type="button"
-        class="purchase-button flex items-center justify-center gap-2 rounded-md text-white transition-colors duration-200"
-        [class.bg-gray-700]="product().inStock"
-        [class.!bg-gray-600]="!product().inStock"
-        [class.!text-gray-300]="!product().inStock"
+        class="
+    purchase-button
+    flex
+    items-center
+    justify-center
+    gap-2
+    rounded-md
+    text-white
+    bg-gray-700
+    transition-colors
+    duration-200
+    hover:!bg-[#8b5cf6]
+    disabled:!bg-gray-600
+    disabled:!text-gray-300
+    disabled:hover:!bg-gray-600
+  "
         (click)="cartStore.addToCart(product(), quantity())"
         [disabled]="!product().inStock"
       >
-        <mat-icon class="!text-[20px] !shrink-0">
-          shopping_cart
-        </mat-icon>
+        <mat-icon class="!text-[20px] !shrink-0"> shopping_cart </mat-icon>
 
         <span class="text-center break-words">
-          {{
-            product().inStock
-              ? 'Adicionar ao Carrinho'
-              : 'Fora de Estoque'
-          }}
+          {{ product().inStock ? 'Adicionar ao Carrinho' : 'Fora de Estoque' }}
         </span>
       </button>
 
       <div class="wishlist-container">
-        <app-toggle-wishlist-button
-          [product]="product()"
-        />
+        <app-toggle-wishlist-button [product]="product()" />
       </div>
     </div>
 
-    <div
-      class="pt-6 flex flex-col gap-3 text-white text-xs"
-    >
+    <div class="pt-6 flex flex-col gap-3 text-white text-xs">
       <div class="info-item">
-        <mat-icon class="small !text-[#8b5cf6] !shrink-0">
-          bolt
-        </mat-icon>
+        <mat-icon class="small !text-[#8b5cf6] !shrink-0"> bolt </mat-icon>
 
-        <span>
-          Entrega Imediata após a Compra, Exceto em Pré-Vendas
-        </span>
+        <span> Entrega Imediata após a Compra, Exceto em Pré-Vendas </span>
       </div>
 
       <div class="info-item">
-        <mat-icon class="small !text-[#8b5cf6] !shrink-0">
-          vpn_key
-        </mat-icon>
+        <mat-icon class="small !text-[#8b5cf6] !shrink-0"> vpn_key </mat-icon>
 
-        <span>
-          Chave Digital
-        </span>
+        <span> Chave Digital </span>
       </div>
 
       <div class="info-item">
-        <mat-icon class="small !text-[#8b5cf6] !shrink-0">
-          verified
-        </mat-icon>
+        <mat-icon class="small !text-[#8b5cf6] !shrink-0"> verified </mat-icon>
 
-        <span>
-          Compra Segura e Protegida
-        </span>
+        <span> Compra Segura e Protegida </span>
       </div>
 
       <div class="info-item">
-        <mat-icon class="small !text-[#8b5cf6] !shrink-0">
-          devices
-        </mat-icon>
+        <mat-icon class="small !text-[#8b5cf6] !shrink-0"> devices </mat-icon>
 
-        <span>
-          Ativação na Plataforma Indicada
-        </span>
+        <span> Ativação na Plataforma Indicada </span>
       </div>
     </div>
   `,

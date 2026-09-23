@@ -44,6 +44,8 @@ import { Header } from './layout/header/header';
 
       <footer
         class="
+          relative
+          z-0
           border-t
           border-gray-800
           bg-[#15171e]
@@ -73,52 +75,34 @@ import { Header } from './layout/header/header';
             <div class="max-w-sm">
               <h2 class="text-xl font-bold">
                 Gaming
-                <span class="text-[#8b5cf6]">
-                  Hub
-                </span>
+                <span class="text-[#8b5cf6]"> Hub </span>
               </h2>
 
               <p class="mt-2 text-sm leading-relaxed text-gray-400">
-                Sua loja digital de jogos.
-                Encontre seus próximos jogos favoritos.
+                Sua loja digital de jogos. Encontre seus próximos jogos favoritos.
               </p>
             </div>
 
             <!-- NAVEGAÇÃO -->
             <div>
-              <h3 class="mb-3 text-sm font-semibold text-white">
-                Navegação
-              </h3>
+              <h3 class="mb-3 text-sm font-semibold text-white">Navegação</h3>
 
               <div class="flex flex-col gap-2 text-sm text-gray-400">
-                <a
-                  routerLink="/products/Games"
-                  class="transition-colors hover:text-[#8b5cf6]"
-                >
+                <a routerLink="/products/Games" class="transition-colors hover:text-[#8b5cf6]">
                   Jogos
                 </a>
 
-                <a
-                  routerLink="/wishlist"
-                  class="transition-colors hover:text-[#8b5cf6]"
-                >
+                <a routerLink="/wishlist" class="transition-colors hover:text-[#8b5cf6]">
                   Lista de Desejos
                 </a>
 
-                <a
-                  routerLink="/cart"
-                  class="transition-colors hover:text-[#8b5cf6]"
-                >
-                  Carrinho
-                </a>
+                <a routerLink="/cart" class="transition-colors hover:text-[#8b5cf6]"> Carrinho </a>
               </div>
             </div>
 
             <!-- INFORMAÇÕES -->
             <div>
-              <h3 class="mb-3 text-sm font-semibold text-white">
-                Gaming Hub
-              </h3>
+              <h3 class="mb-3 text-sm font-semibold text-white">Gaming Hub</h3>
 
               <div class="flex flex-col gap-2 text-sm text-gray-400">
                 <span>Entrega digital</span>

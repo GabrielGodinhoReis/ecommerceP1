@@ -125,7 +125,6 @@ import { EmptyWishlist } from './empty-wishlist/empty-wishlist';
               justify-center
               py-16
               text-center
-              text-gray-white
             "
           >
             <mat-icon
@@ -139,9 +138,9 @@ import { EmptyWishlist } from './empty-wishlist/empty-wishlist';
               search_off
             </mat-icon>
 
-            <p class="text-lg">Nenhum jogo encontrado.</p>
+            <p class="text-lg">Nenhum Jogo Encontrado.</p>
 
-            <p class="text-sm mt-1">Tente pesquisar por outro nome.</p>
+            <p class="text-sm mt-1 text-gray-500">Esse Jogo Não Está na sua Lista de Desejos.</p>
           </div>
         }
       } @else {

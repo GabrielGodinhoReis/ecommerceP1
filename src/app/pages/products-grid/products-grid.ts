@@ -33,10 +33,12 @@ import { ToggleWishlistButton } from '../../components/toggle-wishlist-button/to
     MatIcon,
     RouterLink,
   ],
+
   selector: 'app-products-grid',
+
   template: `
-    <mat-sidenav-container class="!h-auto !min-h-0">
-      <mat-sidenav #sidenav mode="over">
+    <mat-sidenav-container>
+      <mat-sidenav #sidenav mode="over" (opened)="lockScroll()" (closed)="unlockScroll()">
         <div class="p-6">
           <h2 class="menu-title">Nosso Catálogo</h2>
 
@@ -86,7 +88,6 @@ import { ToggleWishlistButton } from '../../components/toggle-wishlist-button/to
         </div>
 
         <!-- CARROSSEL -->
-
         @if (
           store.category() === 'Games' &&
           store.searchTerm() === '' &&
@@ -139,13 +140,11 @@ import { ToggleWishlistButton } from '../../components/toggle-wishlist-button/to
                 </div>
 
                 <!-- ANTERIOR -->
-
                 <button class="carousel-button prev" type="button" (click)="previousGame()">
                   ❮
                 </button>
 
                 <!-- PRÓXIMO -->
-
                 <button class="carousel-button next" type="button" (click)="nextGame()">❯</button>
               </section>
 
@@ -162,7 +161,6 @@ import { ToggleWishlistButton } from '../../components/toggle-wishlist-button/to
         }
 
         <!-- QUANTIDADE DE JOGOS -->
-
         <p
           class="
             text-base
@@ -174,7 +172,6 @@ import { ToggleWishlistButton } from '../../components/toggle-wishlist-button/to
         </p>
 
         <!-- GRID DE PRODUTOS -->
-
         @if (store.filteredProducts().length > 0) {
           <div class="responsive-grid">
             @for (product of store.filteredProducts(); track product.id) {
@@ -211,22 +208,23 @@ import { ToggleWishlistButton } from '../../components/toggle-wishlist-button/to
                 !w-12
                 !h-12
                 mb-4
-                !text-gray-500
+                text-white
               "
             >
               search_off
             </mat-icon>
 
-            <p class="text-lg">Nenhum jogo encontrado.</p>
+            <p class="text-lg">Nenhum Jogo Encontrado.</p>
 
-            <p class="text-sm mt-1 text-gray-500">Tente pesquisar por outro nome.</p>
+            <p class="text-sm mt-1 text-gray-500">
+              Infelizmente, Não Encontramos esse Jogo em Nosso Catálogo.
+            </p>
           </div>
         }
       </mat-sidenav-content>
     </mat-sidenav-container>
 
     <!-- BOTÃO ÚNICO DO MENU -->
-
     <button
       type="button"
       mat-icon-button
@@ -282,6 +280,32 @@ export default class ProductsGrid {
   autoPlayTimer: any;
 
   changingImage = false;
+
+  lockScroll() {
+    const content = document.querySelector('.content');
+    const sidenavContent = document.querySelector('mat-sidenav-content');
+
+    if (content instanceof HTMLElement) {
+      content.style.overflowY = 'hidden';
+    }
+
+    if (sidenavContent instanceof HTMLElement) {
+      sidenavContent.style.overflowY = 'hidden';
+    }
+  }
+
+  unlockScroll() {
+    const content = document.querySelector('.content');
+    const sidenavContent = document.querySelector('mat-sidenav-content');
+
+    if (content instanceof HTMLElement) {
+      content.style.overflowY = 'auto';
+    }
+
+    if (sidenavContent instanceof HTMLElement) {
+      sidenavContent.style.overflowY = 'auto';
+    }
+  }
 
   constructor() {
     this.route.paramMap.subscribe((params) => {
@@ -414,7 +438,6 @@ export default class ProductsGrid {
 
   changeImage(index: number) {
     // Proteção para Server-Side Rendering (Node.js)
-
     if (typeof window === 'undefined') {
       return;
     }
@@ -459,7 +482,6 @@ export default class ProductsGrid {
   }
 
   // ADICIONAR O JOGO ATUAL DO CARROSSEL AO CARRINHO
-
   addCurrentGameToCart() {
     const game = this.currentGameData;
 
