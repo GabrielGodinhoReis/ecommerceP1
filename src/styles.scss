@@ -1,7 +1,8 @@
 @use '@ngxpert/hot-toast/styles';
-@use '@angular/material' as mat;
-@use 'tailwindcss';
 
+@use '@angular/material' as mat;
+
+@use 'tailwindcss';
 
 html,
 body {
@@ -10,10 +11,36 @@ body {
   overflow: hidden;
 }
 
-app-root {
-  display: block;
+.content {
   height: 100vh;
-  overflow: visible;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-top: 64px;
+  box-sizing: border-box;
+}
+
+.products-grid-content {
+  overflow-y: auto !important;
+  height: 100vh;
+}
+
+app-header {
+  flex-shrink: 0;
+  position: relative;
+  z-index: 2147483647 !important;
+}
+
+.elevated {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45);
+}
+
+mat-toolbar {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45);
+}
+
+
+mat-sidenav-container {
+  height: 100%;
 }
 
 body {
@@ -40,9 +67,14 @@ body {
 }
 
 .gaming-title {
-  color: #ffffff;
   font-size: 22px;
   font-weight: 700;
+  color: white !important;
+  letter-spacing: -0.5px;
+}
+
+.hub-badge {
+  color: white !important;
 }
 
 .hub-badge {
@@ -59,13 +91,19 @@ body {
 .elevated {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45);
   position: relative;
-  z-index: 10;
+  z-index: 99999 !important;
 }
 
 mat-toolbar {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45);
   position: relative;
-  z-index: 10;
+  z-index: 99999 !important;
+}
+
+
+.menu-toggle {
+  position: absolute;
+  z-index: 9999;
 }
 
 button[matButton] {
@@ -76,24 +114,18 @@ button[matButton] {
       text-container-shape: 6px,
       protected-container-shape: 6px,
       tonal-container-shape: 6px,
-
       filled-container-color: #8b5cf6,
       filled-label-text-color: #ffffff,
-
       outlined-label-text-color: #a78bfa,
       outlined-outline-color: #8b5cf6,
-
       text-label-text-color: #a78bfa,
-
       filled-horizontal-padding: 12px,
       outlined-horizontal-padding: 12px,
       text-horizontal-padding: 12px,
       protected-horizontal-padding: 12px,
       tonal-horizontal-padding: 12px,
-
       filled-icon-spacing: 0px,
       filled-icon-offset: 1px,
-
       filled-container-height: 36px,
       outlined-container-height: 36px,
       text-container-height: 36px,
@@ -195,8 +227,9 @@ mat-sidenav {
   font-size: 28px;
   font-weight: 700;
   margin: 0;
-  padding: 24px 20px 18px;
+  padding: 24px 10px 18px;
   text-align: center;
+  white-space: nowrap;
 }
 
 .recommendations {
@@ -207,85 +240,70 @@ mat-sidenav {
 .recommendations-title {
   width: 920px;
   margin: 0 auto 18px;
-
   color: #ffffff;
   font-size: 24px;
   font-weight: 700;
-
   letter-spacing: 0.5px;
   text-align: center;
 }
 
 .carousel-wrapper {
   position: relative;
-
   width: 100%;
   height: 470px;
-
   display: flex;
   justify-content: center;
   align-items: center;
-
   margin-bottom: 32px;
-
   overflow: visible;
 }
 
 .carousel {
   position: absolute;
-
   left: 50%;
   transform: translateX(-50%);
-
   width: 1000px;
   height: 470px;
-
   flex-shrink: 0;
-
   overflow: hidden;
-
   border-radius: 12px;
-
   background: #161922;
-
   box-shadow: 0 0 35px 15px rgba(0, 0, 0, 0.75);
-
   z-index: 2;
 }
+
+/* =========================================================
+   IMAGEM CLICÁVEL
+   ========================================================= */
 
 .carousel-image-wrapper {
   position: absolute;
   inset: 0;
   overflow: hidden;
   border-radius: 12px;
+  z-index: 2;
+}
+
+.carousel-image-link {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  z-index: 2;
 }
 
 .carousel-image {
   position: absolute;
   inset: 0;
-
   width: 100%;
   height: 100%;
-
   object-fit: cover;
   display: block;
-
   opacity: 0;
-
   transition: opacity 0.4s ease-in-out;
-}
-
-.carousel-image {
-  pointer-events: auto;
-}
-
-.carousel-overlay {
   pointer-events: none;
-}
-
-.carousel-buy-button,
-.carousel-button {
-  pointer-events: auto;
 }
 
 .carousel-image.image-visible {
@@ -296,19 +314,31 @@ mat-sidenav {
   opacity: 1;
 }
 
+/* =========================================================
+   OVERLAY
+   ========================================================= */
+
 .carousel-overlay {
   position: absolute;
-
   inset: 0;
-
   display: flex;
   align-items: flex-end;
-
   padding: 40px;
-
-  background: linear-gradient(to top, rgba(15, 17, 23, 0.85), rgba(15, 17, 23, 0.45), transparent);
-
+  background: linear-gradient(
+    to top,
+    rgba(15, 17, 23, 0.85),
+    rgba(15, 17, 23, 0.45),
+    transparent
+  );
   z-index: 3;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.carousel:hover .carousel-overlay {
+  opacity: 1;
+  pointer-events: none;
 }
 
 .carousel-info {
@@ -316,85 +346,63 @@ mat-sidenav {
   max-width: 650px;
 }
 
-.carousel-info h2 {
-  margin: 0 0 8px;
-
-  color: #ffffff;
-
-  font-size: 32px;
-  font-weight: 700;
-}
-
-.carousel-info p {
-  margin: 0 0 18px;
-
-  color: #d1d5db;
-
-  font-size: 16px;
-}
+/* =========================================================
+   PARTE INFERIOR
+   ========================================================= */
 
 .carousel-bottom {
   display: flex;
   align-items: center;
-
   gap: 16px;
+  pointer-events: auto;
 }
 
 .carousel-price {
   color: #ffffff;
-
   font-size: 22px;
   font-weight: 700;
+  cursor: pointer;
+  pointer-events: auto;
 }
 
 .carousel-buy-button {
   border: none;
   border-radius: 6px;
-
   padding: 10px 20px;
-
   background: #8b5cf6;
   color: #ffffff;
-
   font-size: 15px;
   font-weight: 600;
-
   cursor: pointer;
-
   transition: 0.2s;
+  pointer-events: auto;
 }
 
 .carousel-buy-button:hover {
   background: #7c3aed;
 }
 
+/* =========================================================
+   CARDS LATERAIS
+   ========================================================= */
+
 .side-card {
   position: absolute;
-
   width: 920px;
   height: 430px;
-
   overflow: hidden;
-
   border-radius: 12px;
-
   background: #161922;
-
   opacity: 0.45;
-
   filter: brightness(0.6);
-
   z-index: 1;
-
   pointer-events: auto;
 }
 
 .side-card img {
   width: 100%;
   height: 100%;
-
   object-fit: cover;
-
   display: block;
 }
 
@@ -406,30 +414,23 @@ mat-sidenav {
   left: calc(50% + 480px);
 }
 
+/* =========================================================
+   SETAS
+   ========================================================= */
+
 .carousel-button {
   position: absolute;
-
   top: 50%;
-
   transform: translateY(-50%);
-
   z-index: 5;
-
   width: 42px;
   height: 42px;
-
   border: none;
-
   border-radius: 50%;
-
   background: rgba(15, 17, 23, 0.8);
-
   color: #ffffff;
-
   font-size: 22px;
-
   cursor: pointer;
-
   transition: 0.2s;
 }
 
@@ -445,9 +446,17 @@ mat-sidenav {
   right: 18px;
 }
 
+/* =========================================================
+   SIDENAV CONTENT
+   ========================================================= */
+
 mat-sidenav-content {
   overflow-x: hidden !important;
 }
+
+/* =========================================================
+   HOT TOAST
+   ========================================================= */
 
 .hot-toast {
   display: flex !important;
@@ -460,4 +469,242 @@ mat-sidenav-content {
   align-items: center !important;
   line-height: 1 !important;
   white-space: nowrap !important;
+}
+
+/* =========================================================
+   RESPONSIVIDADE DO CARROSSEL
+   ========================================================= */
+
+@media (max-width: 1200px) {
+  .carousel {
+    width: 85%;
+  }
+
+  .side-card {
+    width: 70%;
+  }
+
+  .left-card {
+    right: calc(50% + 40%);
+  }
+
+  .right-card {
+    left: calc(50% + 40%);
+  }
+
+  .recommendations-title {
+    width: 85%;
+  }
+}
+
+@media (max-width: 900px) {
+  .carousel-wrapper {
+    height: 400px;
+  }
+
+  .carousel {
+    width: 90%;
+    height: 400px;
+  }
+
+  .side-card {
+    display: none;
+  }
+
+  .recommendations-title {
+    width: 90%;
+    font-size: 20px;
+  }
+
+  .carousel-overlay {
+    padding: 25px;
+  }
+
+  .carousel-price {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .carousel {
+    width: 85%;
+    height: auto;
+    aspect-ratio: 1000 / 470;
+  }
+
+  .side-card {
+    width: 70%;
+    height: auto;
+    aspect-ratio: 920 / 430;
+  }
+
+  .left-card {
+    right: calc(50% + 40%);
+  }
+
+  .right-card {
+    left: calc(50% + 40%);
+  }
+
+  .recommendations-title {
+    width: 85%;
+  }
+}
+
+@media (max-width: 900px) {
+  .carousel-wrapper {
+    height: auto;
+    aspect-ratio: 1000 / 470;
+  }
+
+  .carousel {
+    width: 90%;
+    height: auto;
+    aspect-ratio: 1000 / 470;
+  }
+
+  .side-card {
+    display: none;
+  }
+
+  .recommendations-title {
+    width: 90%;
+    font-size: 20px;
+  }
+
+  .carousel-overlay {
+    padding: 25px;
+  }
+
+  .carousel-price {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 600px) {
+  .carousel-wrapper {
+    height: auto;
+    aspect-ratio: 1000 / 470;
+  }
+
+  .carousel {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1000 / 470;
+    border-radius: 8px;
+  }
+
+  .carousel-image-wrapper,
+  .carousel-image-link {
+    border-radius: 8px;
+  }
+
+  .recommendations-title {
+    width: 100%;
+    font-size: 18px;
+    margin-bottom: 12px;
+  }
+
+  .carousel-overlay {
+    padding: 18px;
+  }
+
+  .carousel-bottom {
+    gap: 10px;
+  }
+
+  .carousel-price {
+    font-size: 18px;
+  }
+
+  .carousel-buy-button {
+    padding: 8px 14px;
+    font-size: 14px;
+  }
+
+  .carousel-button {
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+  }
+
+  .carousel-button.prev {
+    left: 10px;
+  }
+
+  .carousel-button.next {
+    right: 10px;
+  }
+}
+
+@media (max-width: 400px) {
+  .carousel-wrapper {
+    height: auto;
+    aspect-ratio: 1000 / 470;
+  }
+
+  .carousel {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1000 / 470;
+  }
+
+  .carousel-overlay {
+    padding: 14px;
+  }
+
+  .carousel-price {
+    font-size: 16px;
+  }
+
+  .carousel-buy-button {
+    padding: 7px 12px;
+    font-size: 13px;
+  }
+
+  .carousel-button {
+    width: 32px;
+    height: 32px;
+    font-size: 16px;
+  }
+}
+
+/* =========================================================
+   SIDENAV NO MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+  mat-sidenav-container {
+    position: relative;
+    z-index: 1 !important;
+  }
+
+  mat-sidenav {
+    z-index: 100 !important;
+  }
+
+  mat-sidenav-content {
+    position: relative;
+    z-index: 1 !important;
+  }
+}
+
+/* =========================================================
+   HOT TOAST MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+  .hot-toast {
+    max-width: calc(100vw - 32px) !important;
+    font-size: 0.8rem !important;
+    padding: 10px 12px !important;
+  }
+}
+
+mat-toolbar {
+  background-color: #0f1117 !important;
+  opacity: 1 !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45);
+  position: relative;
+  z-index: 2147483647 !important;
 }

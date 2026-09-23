@@ -33,12 +33,10 @@ import { ToggleWishlistButton } from '../../components/toggle-wishlist-button/to
     MatIcon,
     RouterLink,
   ],
-
   selector: 'app-products-grid',
-
   template: `
-    <mat-sidenav-container class="h-full overflow-hidden">
-      <mat-sidenav mode="side" opened="true">
+    <mat-sidenav-container class="!h-auto !min-h-0">
+      <mat-sidenav #sidenav mode="over">
         <div class="p-6">
           <h2 class="menu-title">Nosso Catálogo</h2>
 
@@ -65,10 +63,23 @@ import { ToggleWishlistButton } from '../../components/toggle-wishlist-button/to
         </div>
       </mat-sidenav>
 
-      <mat-sidenav-content class="bg-[#0f1117] p-6 overflow-y-auto">
+      <mat-sidenav-content
+        class="
+          bg-[#0f1117]
+          p-6
+        "
+      >
         <div class="bg-[#0f1117] p-6">
           @if (store.category() !== 'Games') {
-            <h1 class="text-2xl font-bold text-white mb-1">
+            <h1
+              class="
+                text-2xl
+                font-bold
+                text-white
+                mb-1
+                text-center
+              "
+            >
               {{ store.category() }}
             </h1>
           }
@@ -76,7 +87,11 @@ import { ToggleWishlistButton } from '../../components/toggle-wishlist-button/to
 
         <!-- CARROSSEL -->
 
-        @if (store.category() === 'Games' && store.carouselProducts().length > 0) {
+        @if (
+          store.category() === 'Games' &&
+          store.searchTerm() === '' &&
+          store.carouselProducts().length > 0
+        ) {
           <div class="recommendations">
             <h2 class="recommendations-title">VEM VER NOSSAS RECOMENDAÇÕES!</h2>
 
@@ -91,61 +106,46 @@ import { ToggleWishlistButton } from '../../components/toggle-wishlist-button/to
               }
 
               <section class="carousel">
-                <div class="carousel-image-wrapper">
+                <a class="carousel-image-link" [routerLink]="['/product', currentGameData?.id]">
                   <img
-                    class="carousel-image cursor-pointer"
+                    class="carousel-image"
                     [class.image-visible]="currentImageVisible()"
                     [src]="currentImage()"
                     [alt]="currentGameData?.name"
-                    [routerLink]="['/product', currentGameData?.id]"
                   />
-
-                  <img
-                    class="carousel-image cursor-pointer"
-                    [class.image-visible]="currentImageVisible()"
-                    [src]="currentImage()"
-                    [alt]="currentGameData?.name"
-                    [routerLink]="['/product', currentGameData?.id]"
-                  />
-                </div>
+                </a>
 
                 <div class="carousel-overlay">
-                  <div class="carousel-info">
-                    <h2 class="cursor-pointer" [routerLink]="['/product', currentGameData?.id]">
-                      {{ currentGameData?.name }}
-                    </h2>
+                  <div class="carousel-bottom">
+                    <span
+                      class="
+                        carousel-price
+                        cursor-pointer
+                      "
+                      [routerLink]="['/product', currentGameData?.id]"
+                    >
+                      R$
+                      {{ currentGameData?.price?.toFixed(2)?.replace('.', ',') }}
+                    </span>
 
-                    <p class="cursor-pointer" [routerLink]="['/product', currentGameData?.id]">
-                      {{ currentGameData?.description }}
-                    </p>
-
-                    <div class="carousel-bottom">
-                      <span
-                        class="carousel-price cursor-pointer"
-                        [routerLink]="['/product', currentGameData?.id]"
-                      >
-                        R$
-                        {{ currentGameData?.price?.toFixed(2)?.replace('.', ',') }}
-                      </span>
-
-                      <!-- COMPRAR -->
-                      <button
-                        class="carousel-buy-button"
-                        type="button"
-                        (click)="addCurrentGameToCart()"
-                      >
-                        Comprar
-                      </button>
-                    </div>
+                    <button
+                      class="carousel-buy-button"
+                      type="button"
+                      (click)="addCurrentGameToCart()"
+                    >
+                      Comprar
+                    </button>
                   </div>
                 </div>
 
                 <!-- ANTERIOR -->
+
                 <button class="carousel-button prev" type="button" (click)="previousGame()">
                   ❮
                 </button>
 
                 <!-- PRÓXIMO -->
+
                 <button class="carousel-button next" type="button" (click)="nextGame()">❯</button>
               </section>
 
@@ -163,29 +163,101 @@ import { ToggleWishlistButton } from '../../components/toggle-wishlist-button/to
 
         <!-- QUANTIDADE DE JOGOS -->
 
-        <p class="text-base text-gray-600 mb-6">{{ store.filteredProducts().length }} Jogos</p>
+        <p
+          class="
+            text-base
+            text-gray-600
+            mb-6
+          "
+        >
+          {{ store.filteredProducts().length }} Jogos
+        </p>
 
         <!-- GRID DE PRODUTOS -->
 
-        <div class="responsive-grid">
-          @for (product of store.filteredProducts(); track product.id) {
-            <app-product-card [product]="product">
-              <app-toggle-wishlist-button
-                !absolute
-                z-10
-                top-3
-                right-3
-                w-10
-                h-10
-                rounded-full
-                [product]="product"
-                [style.view-transition-name]="'wishlist-button-' + product.id"
-              />
-            </app-product-card>
-          }
-        </div>
+        @if (store.filteredProducts().length > 0) {
+          <div class="responsive-grid">
+            @for (product of store.filteredProducts(); track product.id) {
+              <app-product-card [product]="product">
+                <app-toggle-wishlist-button
+                  !absolute
+                  !z-10
+                  !top-3
+                  !right-3
+                  !w-10
+                  !h-10
+                  !rounded-full
+                  [product]="product"
+                  [style.view-transition-name]="'wishlist-button-' + product.id"
+                />
+              </app-product-card>
+            }
+          </div>
+        } @else {
+          <div
+            class="
+              flex
+              flex-col
+              items-center
+              justify-center
+              py-16
+              text-center
+              text-white
+            "
+          >
+            <mat-icon
+              class="
+                !text-5xl
+                !w-12
+                !h-12
+                mb-4
+                !text-gray-500
+              "
+            >
+              search_off
+            </mat-icon>
+
+            <p class="text-lg">Nenhum jogo encontrado.</p>
+
+            <p class="text-sm mt-1 text-gray-500">Tente pesquisar por outro nome.</p>
+          </div>
+        }
       </mat-sidenav-content>
     </mat-sidenav-container>
+
+    <!-- BOTÃO ÚNICO DO MENU -->
+
+    <button
+      type="button"
+      mat-icon-button
+      style="
+        position: fixed !important;
+        top: 100px !important;
+        z-index: 2147483647 !important;
+        width: 40px !important;
+        height: 40px !important;
+        min-width: 40px !important;
+        padding: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        background: #292929 !important;
+        color: white !important;
+        border: 1px solid #374151 !important;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5) !important;
+      "
+      [style.left]="sidenav.opened ? '280px' : '20px'"
+      (click)="sidenav.toggle()"
+    >
+      <mat-icon
+        style="
+          color: white !important;
+          margin: 0 !important;
+        "
+      >
+        {{ sidenav.opened ? 'chevron_left' : 'chevron_right' }}
+      </mat-icon>
+    </button>
   `,
 })
 export default class ProductsGrid {
@@ -342,18 +414,18 @@ export default class ProductsGrid {
 
   changeImage(index: number) {
     // Proteção para Server-Side Rendering (Node.js)
+
     if (typeof window === 'undefined') {
       return;
     }
 
     const games = this.store.carouselProducts();
+
     const order = this.carouselOrder();
 
     if (games.length === 0 || order.length === 0 || this.changingImage) {
       return;
     }
-
-    // Mantenha o restante do código original da função abaixo...
 
     this.changingImage = true;
 

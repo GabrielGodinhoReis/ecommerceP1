@@ -1,6 +1,9 @@
 import { computed, inject } from '@angular/core';
+
 import { Router } from '@angular/router';
+
 import { MatDialog } from '@angular/material/dialog';
+
 import {
   patchState,
   signalMethod,
@@ -9,28 +12,46 @@ import {
   withMethods,
   withState,
 } from '@ngrx/signals';
+
 import { withStorageSync } from '@angular-architects/ngrx-toolkit';
+
 import { produce } from 'immer';
 
 import { Product } from './models/product';
+
 import { User, SignInParams, SignUpParams } from './models/user';
+
 import { CartStore } from './cart-store';
+
 import { Toaster } from './services/toaster';
 
-// --- FIX PARA SSR (NODE.JS) ---
+// ---------------------------------------------------------
+// FIX PARA SSR (NODE.JS)
+// ---------------------------------------------------------
+
 if (typeof globalThis.localStorage === 'undefined') {
   const mockStorage = new Map<string, string>();
+
   (globalThis as any).localStorage = {
     getItem: (key: string) => mockStorage.get(key) ?? null,
+
     setItem: (key: string, value: string) => mockStorage.set(key, value),
+
     removeItem: (key: string) => mockStorage.delete(key),
+
     clear: () => mockStorage.clear(),
+
     get length() {
       return mockStorage.size;
     },
+
     key: (index: number) => Array.from(mockStorage.keys())[index] ?? null,
   };
 }
+
+// ---------------------------------------------------------
+// USUÁRIO CADASTRADO
+// ---------------------------------------------------------
 
 export type RegisteredUser = {
   name: string;
@@ -38,9 +59,14 @@ export type RegisteredUser = {
   password?: string;
 };
 
+// ---------------------------------------------------------
+// ESTADO
+// ---------------------------------------------------------
+
 export type EcommerceState = {
   products: Product[];
   category: string;
+  searchTerm: string;
   wishlistItems: Product[];
   user: User | undefined;
   registeredUsers: RegisteredUser[];
@@ -48,12 +74,20 @@ export type EcommerceState = {
   selectedProductId: string | undefined;
 };
 
+// ---------------------------------------------------------
+// STORE
+// ---------------------------------------------------------
+
 export const EcommerceStore = signalStore(
   {
     providedIn: 'root',
   },
 
-  withState({
+  // -------------------------------------------------------
+  // STATE
+  // -------------------------------------------------------
+
+  withState<EcommerceState>({
     products: [
       {
         id: '1',
@@ -69,6 +103,7 @@ export const EcommerceStore = signalStore(
         inStock: true,
         category: 'RPG',
       },
+
       {
         id: '2',
         name: 'Control Resonant',
@@ -83,6 +118,7 @@ export const EcommerceStore = signalStore(
         inStock: true,
         category: 'Hack and Slash',
       },
+
       {
         id: '3',
         name: 'Resident Evil 2',
@@ -95,6 +131,7 @@ export const EcommerceStore = signalStore(
         inStock: false,
         category: 'Terror',
       },
+
       {
         id: '4',
         name: 'Elden Ring',
@@ -107,6 +144,7 @@ export const EcommerceStore = signalStore(
         inStock: true,
         category: 'SoulsLike',
       },
+
       {
         id: '5',
         name: 'Cyberpunk 2077',
@@ -121,6 +159,7 @@ export const EcommerceStore = signalStore(
         inStock: true,
         category: 'RPG',
       },
+
       {
         id: '6',
         name: 'Red Dead Redemption 2',
@@ -133,6 +172,7 @@ export const EcommerceStore = signalStore(
         inStock: true,
         category: 'Mundo Aberto',
       },
+
       {
         id: '7',
         name: 'God of War',
@@ -145,6 +185,7 @@ export const EcommerceStore = signalStore(
         inStock: true,
         category: 'Ação e Aventura',
       },
+
       {
         id: '8',
         name: 'Silent Hill 2',
@@ -157,6 +198,7 @@ export const EcommerceStore = signalStore(
         inStock: true,
         category: 'Terror',
       },
+
       {
         id: '9',
         name: 'The Witcher 3',
@@ -169,6 +211,7 @@ export const EcommerceStore = signalStore(
         inStock: true,
         category: 'RPG',
       },
+
       {
         id: '10',
         name: 'Grand Theft Auto V',
@@ -181,6 +224,7 @@ export const EcommerceStore = signalStore(
         inStock: true,
         category: 'Mundo Aberto',
       },
+
       {
         id: '11',
         name: 'Resident Evil 4',
@@ -193,6 +237,7 @@ export const EcommerceStore = signalStore(
         inStock: true,
         category: 'Terror',
       },
+
       {
         id: '12',
         name: 'Death Stranding',
@@ -207,6 +252,7 @@ export const EcommerceStore = signalStore(
         inStock: true,
         category: 'Mundo Aberto',
       },
+
       {
         id: '13',
         name: 'Death Stranding 2: On the Beach',
@@ -220,6 +266,7 @@ export const EcommerceStore = signalStore(
         inStock: true,
         category: 'Mundo Aberto',
       },
+
       {
         id: '14',
         name: 'Resident Evil Requiem',
@@ -232,6 +279,7 @@ export const EcommerceStore = signalStore(
         inStock: true,
         category: 'Terror',
       },
+
       {
         id: '15',
         name: 'Devil May Cry 5',
@@ -244,6 +292,7 @@ export const EcommerceStore = signalStore(
         inStock: true,
         category: 'Hack and Slash',
       },
+
       {
         id: '16',
         name: '007 First Light',
@@ -258,6 +307,7 @@ export const EcommerceStore = signalStore(
         inStock: true,
         category: 'Ação e Aventura',
       },
+
       {
         id: '17',
         name: 'Crimson Desert',
@@ -270,6 +320,7 @@ export const EcommerceStore = signalStore(
         inStock: true,
         category: 'RPG',
       },
+
       {
         id: '18',
         name: 'The Blood of Dawnwalker',
@@ -281,6 +332,7 @@ export const EcommerceStore = signalStore(
         inStock: true,
         category: 'RPG',
       },
+
       {
         id: '19',
         name: 'Onimusha: Way of the Sword',
@@ -295,6 +347,7 @@ export const EcommerceStore = signalStore(
         inStock: true,
         category: 'Ação e Aventura',
       },
+
       {
         id: '20',
         name: 'Dark Souls I Remastered',
@@ -307,6 +360,7 @@ export const EcommerceStore = signalStore(
         inStock: true,
         category: 'SoulsLike',
       },
+
       {
         id: '21',
         name: 'Dark Souls II: Scholar of the First Sin',
@@ -319,6 +373,7 @@ export const EcommerceStore = signalStore(
         inStock: true,
         category: 'SoulsLike',
       },
+
       {
         id: '22',
         name: 'Dark Souls III',
@@ -331,6 +386,7 @@ export const EcommerceStore = signalStore(
         inStock: true,
         category: 'SoulsLike',
       },
+
       {
         id: '23',
         name: 'Lies of P',
@@ -343,6 +399,7 @@ export const EcommerceStore = signalStore(
         inStock: true,
         category: 'SoulsLike',
       },
+
       {
         id: '24',
         name: 'Sekiro: Shadows Die Twice',
@@ -355,6 +412,7 @@ export const EcommerceStore = signalStore(
         inStock: true,
         category: 'SoulsLike',
       },
+
       {
         id: '25',
         name: 'God of War Ragnarök',
@@ -367,6 +425,7 @@ export const EcommerceStore = signalStore(
         inStock: true,
         category: 'Ação e Aventura',
       },
+
       {
         id: '26',
         name: 'Phantom Blade Zero',
@@ -379,6 +438,7 @@ export const EcommerceStore = signalStore(
         inStock: true,
         category: 'Ação e Aventura',
       },
+
       {
         id: '27',
         name: 'Baldur’s Gate 3',
@@ -393,6 +453,7 @@ export const EcommerceStore = signalStore(
         inStock: true,
         category: 'RPG',
       },
+
       {
         id: '28',
         name: 'Clair Obscur: Expedition 33',
@@ -407,6 +468,7 @@ export const EcommerceStore = signalStore(
         inStock: true,
         category: 'RPG',
       },
+
       {
         id: '29',
         name: 'Disco Elysium',
@@ -419,6 +481,7 @@ export const EcommerceStore = signalStore(
         inStock: true,
         category: 'RPG',
       },
+
       {
         id: '30',
         name: 'Batman: Arkham Asylum',
@@ -431,6 +494,7 @@ export const EcommerceStore = signalStore(
         inStock: true,
         category: 'Ação e Aventura',
       },
+
       {
         id: '31',
         name: 'Batman: Arkham City',
@@ -442,6 +506,7 @@ export const EcommerceStore = signalStore(
         inStock: true,
         category: 'Ação e Aventura',
       },
+
       {
         id: '32',
         name: 'Batman: Arkham Knight',
@@ -454,6 +519,7 @@ export const EcommerceStore = signalStore(
         inStock: true,
         category: 'Ação e Aventura',
       },
+
       {
         id: '33',
         name: 'Hades',
@@ -466,6 +532,7 @@ export const EcommerceStore = signalStore(
         inStock: true,
         category: 'Roguelike',
       },
+
       {
         id: '34',
         name: 'Hades II',
@@ -480,6 +547,7 @@ export const EcommerceStore = signalStore(
         inStock: true,
         category: 'Roguelike',
       },
+
       {
         id: '35',
         name: 'Hollow Knight',
@@ -492,6 +560,7 @@ export const EcommerceStore = signalStore(
         inStock: true,
         category: 'Metroidvania',
       },
+
       {
         id: '36',
         name: 'Hollow Knight: Silksong',
@@ -505,6 +574,7 @@ export const EcommerceStore = signalStore(
         inStock: true,
         category: 'Metroidvania',
       },
+
       {
         id: '37',
         name: 'Balatro',
@@ -519,6 +589,7 @@ export const EcommerceStore = signalStore(
         inStock: true,
         category: 'Roguelike',
       },
+
       {
         id: '38',
         name: 'Cuphead',
@@ -531,6 +602,7 @@ export const EcommerceStore = signalStore(
         inStock: true,
         category: 'Ação e Aventura',
       },
+
       {
         id: '39',
         name: 'Grand Theft Auto: San Andreas',
@@ -543,6 +615,7 @@ export const EcommerceStore = signalStore(
         inStock: true,
         category: 'Mundo Aberto',
       },
+
       {
         id: '40',
         name: 'Grand Theft Auto: Vice City',
@@ -555,6 +628,7 @@ export const EcommerceStore = signalStore(
         inStock: true,
         category: 'Mundo Aberto',
       },
+
       {
         id: '41',
         name: 'Grand Theft Auto III',
@@ -567,6 +641,7 @@ export const EcommerceStore = signalStore(
         inStock: true,
         category: 'Mundo Aberto',
       },
+
       {
         id: '42',
         name: 'Grand Theft Auto IV',
@@ -579,6 +654,7 @@ export const EcommerceStore = signalStore(
         inStock: true,
         category: 'Mundo Aberto',
       },
+
       {
         id: '43',
         name: 'The Last Of Us Part I',
@@ -591,6 +667,7 @@ export const EcommerceStore = signalStore(
         inStock: true,
         category: 'Ação e Aventura',
       },
+
       {
         id: '44',
         name: 'The Last Of Us Part II',
@@ -605,6 +682,7 @@ export const EcommerceStore = signalStore(
         inStock: true,
         category: 'Ação e Aventura',
       },
+
       {
         id: '45',
         name: 'Alan Wake I Remastered',
@@ -616,6 +694,7 @@ export const EcommerceStore = signalStore(
         inStock: true,
         category: 'Terror',
       },
+
       {
         id: '46',
         name: 'Alan Wake II',
@@ -628,6 +707,7 @@ export const EcommerceStore = signalStore(
         inStock: true,
         category: 'Terror',
       },
+
       {
         id: '47',
         name: 'Stella Blade',
@@ -640,6 +720,7 @@ export const EcommerceStore = signalStore(
         inStock: true,
         category: 'Hack and Slash',
       },
+
       {
         id: '48',
         name: 'Control',
@@ -651,6 +732,7 @@ export const EcommerceStore = signalStore(
         inStock: true,
         category: 'Ação e Aventura',
       },
+
       {
         id: '49',
         name: 'Kingdom Come: Deliverance',
@@ -663,6 +745,7 @@ export const EcommerceStore = signalStore(
         inStock: true,
         category: 'RPG',
       },
+
       {
         id: '50',
         name: 'Kingdom Come: Deliverance II',
@@ -680,15 +763,27 @@ export const EcommerceStore = signalStore(
     ] as Product[],
 
     category: 'Games',
+
+    searchTerm: '',
+
     wishlistItems: [] as Product[],
+
     user: undefined as User | undefined,
+
     registeredUsers: [] as RegisteredUser[],
+
     loading: false,
+
     selectedProductId: undefined,
   } as EcommerceState),
 
+  // -------------------------------------------------------
+  // STORAGE
+  // -------------------------------------------------------
+
   withStorageSync({
     key: 'modern-store',
+
     select: ({ wishlistItems, user, registeredUsers }) => ({
       wishlistItems,
       user,
@@ -696,50 +791,110 @@ export const EcommerceStore = signalStore(
     }),
   }),
 
-  withComputed(({ category, products, wishlistItems, selectedProductId }) => ({
+  // -------------------------------------------------------
+  // COMPUTED
+  // -------------------------------------------------------
+
+  withComputed(({ category, products, searchTerm, wishlistItems, selectedProductId }) => ({
     Categorias: computed(() => {
       const categorias = products().map((p) => p.category);
 
       return ['Todos os Jogos', ...[...new Set(categorias)].sort()];
     }),
 
+    // -----------------------------------------------
+    // PRODUTOS
+    // -----------------------------------------------
+
     filteredProducts: computed(() => {
-      const categoria = category().toLowerCase();
+  const categoria = category().toLowerCase();
+  const pesquisa = searchTerm().trim().toLowerCase();
 
-      if (categoria === 'todos' || categoria === 'games') {
-        return [...products()].sort((a, b) => a.name.localeCompare(b.name));
-      }
+  let filtered = products();
 
-      return products()
-        .filter((p) => p.category.toLowerCase() === categoria)
-        .sort((a, b) => a.name.localeCompare(b.name));
-    }),
+  if (categoria !== 'todos' && categoria !== 'games') {
+    filtered = filtered.filter(
+      (p) => p.category.toLowerCase() === categoria
+    );
+  }
 
-    carouselProducts: computed(() => {
-      return products().filter((p) => p.bannerUrl);
-    }),
+  if (pesquisa) {
+    filtered = filtered.filter(
+      (p) => p.name.toLowerCase().includes(pesquisa)
+    );
+  }
+
+  return [...filtered].sort(
+    (a, b) => a.name.localeCompare(b.name)
+  );
+}),
+
+    // -----------------------------------------------
+    // CAROUSEL
+    // -----------------------------------------------
+
+    carouselProducts: computed(() => products().filter((p) => p.bannerUrl)),
+
+    // -----------------------------------------------
+    // WISHLIST
+    // -----------------------------------------------
 
     wishlistCount: computed(() => wishlistItems().length),
 
-    selectedProduct: computed(() =>
-    products().find((p) => p.id === selectedProductId())
-  ),
+    // -----------------------------------------------
+    // PRODUTO SELECIONADO
+    // -----------------------------------------------
+
+    selectedProduct: computed(() => products().find((p) => p.id === selectedProductId())),
   })),
+
+  // -------------------------------------------------------
+  // METHODS
+  // -------------------------------------------------------
 
   withMethods((store) => {
     const router = inject(Router);
+
     const dialog = inject(MatDialog);
+
     const cartStore = inject(CartStore);
+
     const toaster = inject(Toaster);
 
     return {
+      // -----------------------------------------------
+      // CATEGORIA
+      // -----------------------------------------------
+
       setCategory: signalMethod<string>((category: string) => {
-        patchState(store, { category });
+        patchState(store, {
+          category,
+        });
       }),
 
+      // -----------------------------------------------
+      // PESQUISA
+      // -----------------------------------------------
+
+      setSearchTerm: (searchTerm: string) => {
+        patchState(store, {
+          searchTerm,
+        });
+      },
+
+      // -----------------------------------------------
+      // PRODUTO SELECIONADO
+      // -----------------------------------------------
+
       setProductId: signalMethod<string>((productId: string) => {
-        patchState(store, { selectedProductId: productId });
+        patchState(store, {
+          selectedProductId: productId,
+        });
       }),
+
+      // -----------------------------------------------
+      // WISHLIST
+      // -----------------------------------------------
 
       addtoWishlist: (product: Product) => {
         const updatedWishlistItems = produce(store.wishlistItems(), (draft) => {
@@ -755,6 +910,8 @@ export const EcommerceStore = signalStore(
         toaster.sucess('Esse Jogo foi Adicionado à sua Lista de Desejos!');
       },
 
+      // -----------------------------------------------
+
       removeFromWishlist: (product: Product) => {
         patchState(store, {
           wishlistItems: store.wishlistItems().filter((p) => p.id !== product.id),
@@ -763,27 +920,42 @@ export const EcommerceStore = signalStore(
         toaster.error('Esse Jogo foi Removido da sua Lista de Desejos!');
       },
 
+      // -----------------------------------------------
+
       removeFromWishlistWithoutMessage: (product: Product) => {
         patchState(store, {
           wishlistItems: store.wishlistItems().filter((p) => p.id !== product.id),
         });
       },
+
+      // -----------------------------------------------
+
       clearWishlist: () => {
-        patchState(store, { wishlistItems: [] });
+        patchState(store, {
+          wishlistItems: [],
+        });
+
         toaster.error('Todos os Jogos foram Removidos da Lista de Desejos!');
       },
 
+      // -----------------------------------------------
+      // LOGIN
+      // -----------------------------------------------
+
       signIn(params: SignInParams): boolean {
         const emailInput = params.email.trim().toLowerCase();
+
         const found = store.registeredUsers().find((u) => u.email.toLowerCase() === emailInput);
 
         if (!found) {
           toaster.error('E-mail não cadastrado! Clique em Cadastrar para criar sua conta.');
+
           return false;
         }
 
         if (found.password && params.password && found.password !== params.password) {
           toaster.error('Senha incorreta! Verifique os dados digitados.');
+
           return false;
         }
 
@@ -793,26 +965,37 @@ export const EcommerceStore = signalStore(
           email: found.email,
         };
 
-        patchState(store, { user });
+        patchState(store, {
+          user,
+        });
+
         toaster.sucess(`Bem-vindo(a) de volta, ${found.name}!`);
 
         if (params.dialogId) {
           const dialogRef = dialog.getDialogById(params.dialogId);
+
           dialogRef?.close();
         }
 
         if (params.checkout) {
           router.navigate(['/checkout']);
         }
+
         return true;
       },
 
+      // -----------------------------------------------
+      // CADASTRO
+      // -----------------------------------------------
+
       signUp(params: SignUpParams): boolean {
         const emailInput = params.email.trim().toLowerCase();
+
         const exists = store.registeredUsers().some((u) => u.email.toLowerCase() === emailInput);
 
         if (exists) {
           toaster.error('Este e-mail já está cadastrado! Faça login.');
+
           return false;
         }
 
@@ -832,52 +1015,82 @@ export const EcommerceStore = signalStore(
 
         patchState(store, {
           registeredUsers: updatedUsers,
-          user: user,
+
+          user,
         });
 
         toaster.sucess('Conta criada com sucesso!');
 
         if (params.dialogId) {
           const dialogRef = dialog.getDialogById(params.dialogId);
+
           dialogRef?.close();
         }
 
         if (params.checkout) {
           router.navigate(['/checkout']);
         }
+
         return true;
       },
 
+      // -----------------------------------------------
+      // SAIR
+      // -----------------------------------------------
+
       signOut() {
-        patchState(store, { user: undefined });
+        patchState(store, {
+          user: undefined,
+        });
+
         toaster.sucess('Sessão encerrada!');
       },
+
+      // -----------------------------------------------
+      // CHECKOUT
+      // -----------------------------------------------
 
       async proceedToCheckout() {
         if (!store.user()) {
           const { default: SignInDialog } =
             await import('./components/sign-in-dialog/sign-in-dialog');
+
           dialog.open(SignInDialog, {
             disableClose: true,
-            data: { checkout: true, mode: 'signin' },
+
+            data: {
+              checkout: true,
+              mode: 'signin',
+            },
           });
         } else {
           router.navigate(['/checkout']);
         }
       },
 
+      // -----------------------------------------------
+      // FINALIZAR PEDIDO
+      // -----------------------------------------------
+
       async placeOrder() {
         if (!store.user()) {
           toaster.error('Faça login antes de finalizar o pedido!');
+
           return;
         }
 
-        patchState(store, { loading: true });
+        patchState(store, {
+          loading: true,
+        });
 
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+        await new Promise<void>((resolve) => setTimeout(resolve, 1000));
 
         cartStore.clearCart();
-        patchState(store, { loading: false });
+
+        patchState(store, {
+          loading: false,
+        });
+
         router.navigate(['/order-success']);
       },
     };

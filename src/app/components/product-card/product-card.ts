@@ -17,7 +17,9 @@ import { RouterLink } from '@angular/router';
   selector: 'app-product-card',
   styles: ``,
   template: `
-    <div class="relative bg-gray-900 rounded-xl shadow-lg overflow-hidden flex flex-col h-full transition-all durantion-200 ease-out hover:-translate-y-1 hover:shadow-xl">
+    <div
+      class="relative bg-gray-900 rounded-xl shadow-lg overflow-hidden flex flex-col h-full transition-all durantion-200 ease-out hover:-translate-y-1 hover:shadow-xl"
+    >
       <!-- IMAGEM -->
       <div class="grid">
         <img
@@ -73,13 +75,13 @@ import { RouterLink } from '@angular/router';
           <button
             matButton="filled"
             type="button"
-            class="flex items-center gap-1 whitespace-nowrap text-sm !text-sm"
+            class="flex items-center gap-1 whitespace-nowrap text-xs !text-xs !px-2.5"
             [class.!bg-gray-600]="!product().inStock"
             [class.!text-gray-300]="!product().inStock"
             (click)="addToCart()"
             [disabled]="!product().inStock"
           >
-            <mat-icon>shopping_cart</mat-icon>
+            <mat-icon class="!text-[18px] !w-[18px] !h-[18px]"> shopping_cart </mat-icon>
 
             <span class="whitespace-nowrap">
               {{ product().inStock ? 'Adicionar ao Carrinho' : 'Fora de Estoque' }}
