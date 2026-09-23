@@ -1,5 +1,4 @@
 import { Component, inject, input, signal } from '@angular/core';
-
 import { Product } from '../../../models/product';
 import { TitleCasePipe, CurrencyPipe } from '@angular/common';
 import { StockStatus } from '../stock-status/stock-status';
@@ -67,6 +66,28 @@ import { CartStore } from '../../../cart-store';
       </button>
 
       <app-toggle-wishlist-button [product]="product()" />
+    </div>
+
+    <div class="pt-6 flex flex-col gap-3 text-white text-xs">
+      <div class="flex items-center gap-3">
+        <mat-icon class="small !text-[#8b5cf6]">bolt</mat-icon>
+        <span>Entrega Imediata após a Compra, Exceto em Pré-Vendas</span>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <mat-icon class="small !text-[#8b5cf6]">vpn_key</mat-icon>
+        <span>Chave Digital</span>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <mat-icon class="small !text-[#8b5cf6]">verified</mat-icon>
+        <span>Compra Segura e Protegida</span>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <mat-icon class="small !text-[#8b5cf6]">devices</mat-icon>
+        <span>Ativação na Plataforma Indicada</span>
+      </div>
     </div>
   `,
 })

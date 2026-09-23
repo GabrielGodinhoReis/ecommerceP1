@@ -17,13 +17,14 @@ import { RouterLink } from '@angular/router';
   selector: 'app-product-card',
   styles: ``,
   template: `
-    <div class="relative bg-gray-900 rounded-xl shadow-lg overflow-hidden flex flex-col h-full">
+    <div class="relative bg-gray-900 rounded-xl shadow-lg overflow-hidden flex flex-col h-full transition-all durantion-200 ease-out hover:-translate-y-1 hover:shadow-xl">
       <!-- IMAGEM -->
       <div class="grid">
         <img
           [src]="product().imageUrl"
           class="col-start-1 row-start-1 w-full aspect-[2/3] object-cover rounded-xl cursor-pointer"
           [routerLink]="['/product', product().id]"
+          [style.view-transition-name]="'product-image-' + product().id"
         />
 
         <!-- BOTÕES EXTRAS (Wishlist / Excluir) -->

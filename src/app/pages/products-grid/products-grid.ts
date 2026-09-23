@@ -179,6 +179,7 @@ import { ToggleWishlistButton } from '../../components/toggle-wishlist-button/to
                 h-10
                 rounded-full
                 [product]="product"
+                [style.view-transition-name]="'wishlist-button-' + product.id"
               />
             </app-product-card>
           }
