@@ -28,15 +28,23 @@ import { EcommerceStore } from '../../ecommerce-store';
       <div class="flex justify-between items-center mb-4">
         <div>
           <h2 class="text-2xl font-bold">
-            {{ isSignUp() ? 'Criar Conta' : 'Entrar' }}
+            @if (mode() === 'signup') {
+              Criar Conta
+            } @else if (mode() === 'forgot') {
+              Esqueci Senha
+            } @else {
+              Entrar
+            }
           </h2>
 
           <p class="text-sm text-gray-400">
-            {{
-              isSignUp()
-                ? 'Preencha seus dados para se cadastrar'
-                : 'Acesse sua conta para continuar'
-            }}
+            @if (mode() === 'signup') {
+              Preencha seus dados para se cadastrar
+            } @else if (mode() === 'forgot') {
+              Informe o seu email
+            } @else {
+              Acesse sua conta para continuar
+            }
           </p>
         </div>
 
@@ -50,7 +58,8 @@ import { EcommerceStore } from '../../ecommerce-store';
         (ngSubmit)="onSubmit()"
         class="flex flex-col gap-3 mt-2"
       >
-        @if (isSignUp()) {
+        <!-- Nome Completo (Apenas no Cadastro) -->
+        @if (mode() === 'signup') {
           <mat-form-field appearance="outline" class="w-full">
             <mat-label>Nome Completo</mat-label>
 
@@ -66,6 +75,7 @@ import { EcommerceStore } from '../../ecommerce-store';
           </mat-form-field>
         }
 
+        <!-- E-mail (Exibido em todas as telas) -->
         <mat-form-field appearance="outline" class="w-full">
           <mat-label>E-mail</mat-label>
 
@@ -81,32 +91,49 @@ import { EcommerceStore } from '../../ecommerce-store';
           </mat-icon>
         </mat-form-field>
 
-        <mat-form-field appearance="outline" class="w-full">
-          <mat-label>Senha</mat-label>
+        <!-- Senha (Exibido no Login e Cadastro) -->
+        @if (mode() !== 'forgot') {
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Senha</mat-label>
 
-          <input
-            matInput
-            formControlName="password"
-            [type]="passwordVisible() ? 'text' : 'password'"
-          />
+            <input
+              matInput
+              formControlName="password"
+              [type]="passwordVisible() ? 'text' : 'password'"
+            />
 
-          <mat-icon matPrefix class="mr-2 text-gray-400">
-            lock
-          </mat-icon>
-
-          <button
-            type="button"
-            mat-icon-button
-            matSuffix
-            (click)="passwordVisible.set(!passwordVisible())"
-          >
-            <mat-icon class="!text-gray-400">
-              {{ passwordVisible() ? 'visibility_off' : 'visibility' }}
+            <mat-icon matPrefix class="mr-2 text-gray-400">
+              lock
             </mat-icon>
-          </button>
-        </mat-form-field>
 
-        @if (isSignUp()) {
+            <button
+              type="button"
+              mat-icon-button
+              matSuffix
+              (click)="passwordVisible.set(!passwordVisible())"
+            >
+              <mat-icon class="!text-gray-400">
+                {{ passwordVisible() ? 'visibility_off' : 'visibility' }}
+              </mat-icon>
+            </button>
+          </mat-form-field>
+        }
+
+        <!-- Link 'Esqueceu a senha?' (Apenas no Login) -->
+        @if (mode() === 'signin') {
+          <div class="text-right -mt-2 mb-1">
+            <button
+              type="button"
+              (click)="setMode('forgot')"
+              class="text-xs text-purple-400 hover:underline bg-transparent border-0 cursor-pointer"
+            >
+              Esqueceu a senha?
+            </button>
+          </div>
+        }
+
+        <!-- Confirmar Senha (Apenas no Cadastro) -->
+        @if (mode() === 'signup') {
           <mat-form-field appearance="outline" class="w-full">
             <mat-label>Confirmar Senha</mat-label>
 
@@ -126,27 +153,44 @@ import { EcommerceStore } from '../../ecommerce-store';
           type="submit"
           class="w-full mt-2 py-3 rounded-lg border-0 outline-none bg-[#8b5cf6] text-white font-semibold shadow-lg shadow-purple-900/40 transition hover:bg-purple-700 hover:shadow-purple-900/60 active:scale-[0.98]"
         >
-          {{ isSignUp() ? 'Cadastrar' : 'Entrar' }}
+          @if (mode() === 'signup') {
+            Cadastrar
+          } @else if (mode() === 'forgot') {
+            OK
+          } @else {
+            Entrar
+          }
         </button>
       </form>
 
+      <!-- Rodapé para alternar entre as telas -->
       <div class="mt-4 text-center text-sm text-gray-400">
-        @if (isSignUp()) {
+        @if (mode() === 'signup') {
           Já tem uma conta?
 
           <button
             type="button"
-            (click)="toggleMode()"
+            (click)="setMode('signin')"
             class="text-purple-400 font-bold hover:underline bg-transparent border-0 cursor-pointer"
           >
             Fazer Login
+          </button>
+        } @else if (mode() === 'forgot') {
+          Lembrou a senha?
+
+          <button
+            type="button"
+            (click)="setMode('signin')"
+            class="text-purple-400 font-bold hover:underline bg-transparent border-0 cursor-pointer"
+          >
+            Voltar ao Login
           </button>
         } @else {
           Não tem uma conta?
 
           <button
             type="button"
-            (click)="toggleMode()"
+            (click)="setMode('signup')"
             class="text-purple-400 font-bold hover:underline bg-transparent border-0 cursor-pointer"
           >
             Cadastre-se
@@ -163,10 +207,10 @@ export default class SignInDialog {
 
   data = inject<{
     checkout?: boolean;
-    mode?: 'signin' | 'signup';
+    mode?: 'signin' | 'signup' | 'forgot';
   }>(MAT_DIALOG_DATA, { optional: true });
 
-  isSignUp = signal<boolean>(this.data?.mode === 'signup');
+  mode = signal<'signin' | 'signup' | 'forgot'>(this.data?.mode || 'signin');
 
   passwordVisible = signal(false);
 
@@ -177,13 +221,30 @@ export default class SignInDialog {
     confirmPassword: [''],
   });
 
-  toggleMode() {
-    this.isSignUp.set(!this.isSignUp());
+  setMode(newMode: 'signin' | 'signup' | 'forgot') {
+    this.mode.set(newMode);
     this.authForm.reset();
   }
 
+  toggleMode() {
+    this.setMode(this.mode() === 'signup' ? 'signin' : 'signup');
+  }
+
   onSubmit() {
-    if (this.isSignUp()) {
+    
+    if (this.mode() === 'forgot') {
+      const email = this.authForm.get('email')?.value;
+      if (!email || this.authForm.get('email')?.invalid) {
+        alert('Por favor, informe um e-mail válido!');
+        return;
+      }
+      alert('Instruções de recuperação enviadas para o seu e-mail!');
+      this.setMode('signin');
+      return;
+    }
+
+    // 2. Fluxo de Cadastro
+    if (this.mode() === 'signup') {
       const val = this.authForm.getRawValue();
 
       if (!val.name) {
@@ -206,6 +267,7 @@ export default class SignInDialog {
         });
       }
     } else {
+      // 3. Fluxo de Login
       const val = this.authForm.getRawValue();
 
       if (this.authForm.get('email')?.valid && val.password) {
