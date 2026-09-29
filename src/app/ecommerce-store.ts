@@ -128,7 +128,7 @@ export const EcommerceStore = signalStore(
           'https://shared.steamstatic.com/store_item_assets/steam/apps/883710/library_600x900_2x.jpg?t=1671156445',
         rating: 4.9,
         reviewCount: 340,
-        inStock: false,
+        inStock: true,
         category: 'Terror',
       },
 
@@ -221,7 +221,7 @@ export const EcommerceStore = signalStore(
           'https://shared.steamstatic.com/store_item_assets/steam/apps/3240220/394239e5da54fed177bd0ab04590812f6add1bb5/library_600x900_2x.jpg?t=1753974917',
         rating: 4.8,
         reviewCount: 540,
-        inStock: true,
+        inStock: false,
         category: 'Mundo Aberto',
       },
 
@@ -271,7 +271,7 @@ export const EcommerceStore = signalStore(
         id: '14',
         name: 'Resident Evil Requiem',
         description: 'Chave digital de Resident Evil Requiem para Steam.',
-        price: 199.9,
+        price: 179.9,
         imageUrl:
           'https://shared.steamstatic.com/store_item_assets/steam/apps/3764200/bde37e52add84267aeaf70c9f32d72381684d928/library_600x900_2x.jpg?t=1753863759',
         rating: 4.8,
@@ -317,7 +317,7 @@ export const EcommerceStore = signalStore(
           'https://shared.steamstatic.com/store_item_assets/steam/apps/3321460/0ea942465fd1dff8a7fbc11cc9fca8c476c5e5ae/library_capsule_2x.jpg?t=1763622767',
         rating: 4.8,
         reviewCount: 110,
-        inStock: true,
+        inStock: false,
         category: 'RPG',
       },
 
@@ -370,7 +370,7 @@ export const EcommerceStore = signalStore(
           'https://shared.steamstatic.com/store_item_assets/steam/apps/335300/library_600x900_2x.jpg?t=1700660676',
         rating: 4.8,
         reviewCount: 720,
-        inStock: true,
+        inStock: false,
         category: 'SoulsLike',
       },
 
@@ -503,7 +503,7 @@ export const EcommerceStore = signalStore(
         imageUrl: 'https://cdn2.steamgriddb.com/grid/cad358ec6af02fdb2a98629f7097b6d5.png',
         rating: 4.9,
         reviewCount: 820,
-        inStock: true,
+        inStock: false,
         category: 'Ação e Aventura',
       },
 
@@ -760,6 +760,128 @@ export const EcommerceStore = signalStore(
         inStock: true,
         category: 'RPG',
       },
+
+      {
+        id: '51',
+        name: 'Ghost of Tsushima',
+        description: 'Chave digital de Ghost of Tsushima para Steam.',
+        price: 99.9,
+        rating: 4.8,
+        reviewCount: 850,
+        inStock: true,
+        category: 'Mundo Aberto',
+        imageUrl: 'https://shared.steamstatic.com/store_item_assets/steam/apps/2215430/library_600x900_2x.jpg?t=1759338112',
+      },
+
+      {
+        id: '52',
+        name: 'Horizon Forbidden West',
+        description: 'Chave digital de Horizon Forbidden West para Steam.',
+        price: 119.9,
+        rating: 4.7,
+        reviewCount: 720,
+        inStock: true,
+        category: 'Mundo Aberto',
+        imageUrl: 'https://cdn2.steamgriddb.com/grid/243227589f0e65da5a872cdd20f66f41.webp',
+      },
+
+      {
+        id: '53',
+        name: 'Horizon Zero Dawn',
+        description: 'Chave digital de Horizon Zero Dawn para Steam.',
+        price: 49.9,
+        rating: 4.8,
+        reviewCount: 950,
+        inStock: true,
+        category: 'Mundo Aberto',
+        imageUrl: 'https://cdn2.steamgriddb.com/grid/abd673b91e4bb9c556da84c6f6f5d470.png',
+      },
+
+      {
+        id: '54',
+        name: 'Red Dead Redemption',
+        description: 'Chave digital de Red Dead Redemption para Steam.',
+        price: 99.9,
+        rating: 4.8,
+        reviewCount: 680,
+        inStock: true,
+        category: 'Mundo Aberto',
+        imageUrl: 'https://shared.steamstatic.com/store_item_assets/steam/apps/2668510/f5cf694ddab93ed2462a9e2f5e01064e121c5663/library_600x900_2x.jpg?t=1730294614',
+      },
+
+      {
+        id: '55',
+        name: 'Black Myth: Wukong',
+        description: 'Chave digital de Black Myth: Wukong para Steam.',
+        price: 129.9,
+        rating: 4.8,
+        reviewCount: 600,
+        inStock: true,
+        category: 'SoulsLike',
+        imageUrl: 'https://shared.steamstatic.com/store_item_assets/steam/apps/2358720/library_600x900_2x.jpg?t=1749182002',
+        bannerUrl: 'https://shared.steamstatic.com/store_item_assets/steam/apps/2358720/header_2x.jpg?t=1749182002',
+      },
+
+      {
+        id: '56',
+        name: 'Resident Evil 7: Biohazard',
+        description: 'Chave digital de Resident Evil 7 biohazard para Steam.',
+        price: 29.9,
+        rating: 4.9,
+        reviewCount: 1100,
+        inStock: true,
+        category: 'Terror',
+        imageUrl: 'https://shared.steamstatic.com/store_item_assets/steam/apps/418370/library_600x900_2x.jpg?t=1582692054',
+      },
+
+      {
+        id: '57',
+        name: 'Resident Evil Village',
+        description: 'Chave digital de Resident Evil Village para Steam.',
+        price: 49.9,
+        rating: 4.3,
+        reviewCount: 900,
+        inStock: false,
+        category: 'Terror',
+        imageUrl: 'https://shared.steamstatic.com/store_item_assets/steam/apps/1196590/library_600x900_2x.jpg?t=1666762266',
+      },
+
+      {
+        id: '58',
+        name: 'Final Fantasy VII Remake',
+        description: 'Chave digital de Final Fantasy VII Remake para Steam.',
+        price: 49.9,
+        rating: 4.8,
+        reviewCount: 750,
+        inStock: true,
+        category: 'RPG',
+        imageUrl: 'https://shared.steamstatic.com/store_item_assets/steam/apps/1462040/library_600x900_2x.jpg?t=1732013140',
+      },
+
+      {
+        id: '59',
+        name: 'Final Fantasy VII Rebirth',
+        description: 'Chave digital de Final Fantasy VII Rebirth para Steam.',
+        price: 79.9,
+        rating: 4.8,
+        reviewCount: 500,
+        inStock: true,
+        category: 'RPG',
+        imageUrl: 'https://shared.steamstatic.com/store_item_assets/steam/apps/2909400/771d94cceea4bf97bd8afeee5e09e31f15bd0196/library_600x900_2x.jpg?t=1747042602',
+      },
+
+      {
+        id: '60',
+        name: 'Final Fantasy VII Revelation',
+        description: 'Chave digital de Crisis Core: Final Fantasy VII Reunion para Steam.',
+        price: 399.9,
+        rating: 4.7,
+        reviewCount: 450,
+        inStock: true,
+        category: 'RPG',
+        imageUrl: 'https://shared.steamstatic.com/store_item_assets/steam/apps/4354570/4ef64a06f35ba298f12ea3f64421756cd5dff9b6/library_capsule_2x.jpg?t=1782212528',
+        bannerUrl: 'https://cdn2.steamgriddb.com/grid/f5722ccf408d613a6d9b5e837208fd11.png',
+      },
     ] as Product[],
 
     category: 'Games',
@@ -807,27 +929,21 @@ export const EcommerceStore = signalStore(
     // -----------------------------------------------
 
     filteredProducts: computed(() => {
-  const categoria = category().toLowerCase();
-  const pesquisa = searchTerm().trim().toLowerCase();
+      const categoria = category().toLowerCase();
+      const pesquisa = searchTerm().trim().toLowerCase();
 
-  let filtered = products();
+      let filtered = products();
 
-  if (categoria !== 'todos' && categoria !== 'games') {
-    filtered = filtered.filter(
-      (p) => p.category.toLowerCase() === categoria
-    );
-  }
+      if (categoria !== 'todos' && categoria !== 'games') {
+        filtered = filtered.filter((p) => p.category.toLowerCase() === categoria);
+      }
 
-  if (pesquisa) {
-    filtered = filtered.filter(
-      (p) => p.name.toLowerCase().includes(pesquisa)
-    );
-  }
+      if (pesquisa) {
+        filtered = filtered.filter((p) => p.name.toLowerCase().includes(pesquisa));
+      }
 
-  return [...filtered].sort(
-    (a, b) => a.name.localeCompare(b.name)
-  );
-}),
+      return [...filtered].sort((a, b) => a.name.localeCompare(b.name));
+    }),
 
     // -----------------------------------------------
     // CAROUSEL
